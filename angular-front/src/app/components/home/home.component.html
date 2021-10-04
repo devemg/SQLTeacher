@@ -1,0 +1,29 @@
+<div class="container">
+    <mat-toolbar color="primary">
+        <span>CQL-Teacher</span>
+      </mat-toolbar>
+      <div class="tabs-container">
+        <mat-tab-group class="tab-group">
+            <mat-tab *ngFor="let tab of tabs; let index = index">
+              <ng-template mat-tab-label>
+                <div class="container-title">
+                  <span>{{tab.title}}</span>
+                <button mat-icon-button  (click)="closeTab(index)" aria-label="Close tab">
+                  <mat-icon>close</mat-icon>
+                </button>
+                </div>
+              </ng-template>
+              <app-editor></app-editor>
+            </mat-tab>
+            
+            <mat-tab disabled class="action-add">
+              <ng-template mat-tab-label>
+                  <button mat-icon-button (click)="addTab()">
+                      <mat-icon>add_circle</mat-icon>
+                  </button>
+              </ng-template>
+          </mat-tab>
+
+          </mat-tab-group>
+      </div>
+</div>
