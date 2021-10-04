@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   addTab(): void {
     this.tabs.push({
       editor: {},
-      title: 'New '+ this.tabs.length
+      title: 'New '+ this.tabs.length + 1
     });
   }
 
