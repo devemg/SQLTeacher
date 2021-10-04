@@ -1,0 +1,22 @@
+.container {
+  background: rgb(19, 19, 19);
+  width: 100%;
+}
+
+.nav-options {
+  width: 100%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  background: #FFF;
+}
+
+.nav-options button {
+  border: none;
+  background: rgb(145, 39, 39);
+  padding: 1em;
+  color: #FFF;
+
+}
