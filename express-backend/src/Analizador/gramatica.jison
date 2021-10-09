@@ -47,6 +47,7 @@
 
 %left 'tk_suma' 'tk_resta'
 %left 'tk_por' 'tk_div'
+%left UMENOS // precedencia creada para reconocer expresiones con número negativos y no exista conflicto con la resta
 %left 'tk_pot'
 %left 'tk_mod'
 
@@ -71,10 +72,8 @@ EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.f
 |EXPRESION tk_pot EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.POTENCIA)}
 |EXPRESION tk_mod EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.MODULO)}
 | tk_par1 EXPRESION tk_par2 {$$ = $2}
-| VALOR {$$ = $1;}; 
-
-VALOR : 
-| tk_resta EXPRESION {$$ = $2}
+/* Aplicamos las precedencias creadas con %prec */
+| tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.first_column,$2,null,TipoAritmetica.RESTA)}
 | val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL, $1)}
 | val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)}
 ;

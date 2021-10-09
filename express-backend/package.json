@@ -8,7 +8,9 @@
     "start": "node ./src/index.js",
     "build": "npx tsc",
     "compile": " jison ./src/Analizador/gramatica.jison -o dist/Analizador/gramatica.js",
-    "all": "npm run build && npm run compile && npm run start"
+    "all": "npm run build && npm run compile && npm run start",
+    "ast": "npm run build && npm run start",
+    "jison": "npm run compile && npm run start"
   },
   "keywords": [],
   "author": "",

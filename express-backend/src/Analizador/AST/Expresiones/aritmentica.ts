@@ -22,9 +22,9 @@ export class Aritmetica extends Expresion {
      */
     getValor(): any {
         const valIzq = this.exprIzq.getValor();
-        const valDer = this.expDer.getValor();
+        const valDer = this.expDer?.getValor(); // puede ser null cuando se tiene un  número negativo -> - EXPRESION
         const tipoIz = this.exprIzq.getTipo();
-        const tipoDer = this.expDer.getTipo();
+        const tipoDer = this.expDer?.getTipo();
         switch(this.operador) {
             case TipoAritmetica.DIVISION: 
             if (this.evaluarTipos(tipoIz, tipoDer)) {
@@ -45,6 +45,11 @@ export class Aritmetica extends Expresion {
                 }
             break;
             case TipoAritmetica.RESTA: 
+            if (!this.expDer) {
+                if (tipoIz == TipoDato.ENTERO || tipoIz == TipoDato.DECIMAL) {
+                    return -1 * valIzq;
+                }
+            }
             if (this.evaluarTipos(tipoIz, tipoDer)) {
                 return valIzq - valDer;
             }
@@ -71,7 +76,7 @@ export class Aritmetica extends Expresion {
      */
     getTipo(): TipoDato {
         const tipoIz = this.exprIzq.getTipo();
-        const tipoDer = this.expDer.getTipo();
+        const tipoDer = this.expDer?.getTipo();
         switch(this.operador) {
             case TipoAritmetica.SUMA: 
             if (tipoIz == TipoDato.ENTERO && tipoDer == TipoDato.ENTERO) {
@@ -89,6 +94,7 @@ export class Aritmetica extends Expresion {
             }
             break;
             case TipoAritmetica.RESTA: 
+                if (!this.expDer) return tipoIz; // expDer puede ser nulo si se tiene un número negativo
             case TipoAritmetica.MULTIPLICACION:
             case TipoAritmetica.MODULO:
             case TipoAritmetica.DIVISION:
