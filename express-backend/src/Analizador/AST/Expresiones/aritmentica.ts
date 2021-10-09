@@ -16,6 +16,10 @@ export class Aritmetica extends Expresion {
     }
     // 15 + 45
     // 15 + 45 - 79.78 + true *  487 / (1000*44) 
+    /**
+     * Retorna el valor real de la operación
+     * @returns Valor
+     */
     getValor(): any {
         const valIzq = this.exprIzq.getValor();
         const valDer = this.expDer.getValor();
@@ -61,6 +65,10 @@ export class Aritmetica extends Expresion {
         }
     }
 
+    /**
+     * Obtiene el tipo de dato de la operación
+     * @returns TipoDato
+     */
     getTipo(): TipoDato {
         const tipoIz = this.exprIzq.getTipo();
         const tipoDer = this.expDer.getTipo();
@@ -112,8 +120,25 @@ export class Aritmetica extends Expresion {
         }
     }
 
+    /**
+     * Evalua según el operador si la los tipos de datos son compatibles
+     * 
+     * @param tipoIzq Tipo de dato de operando a la izquierda del operador
+     * @param tipoDer Tipo de dato de operando a la derecha del operador
+     * @returns 
+     */
     evaluarTipos(tipoIzq: TipoDato, tipoDer: TipoDato): boolean {
-
-        return false;
+        switch(this.operador) {
+            case TipoAritmetica.SUMA: 
+            return (tipoIzq == TipoDato.ENTERO || tipoIzq == TipoDato.DECIMAL || TipoDato.CADENA) && 
+                    (tipoDer == TipoDato.ENTERO || tipoDer == TipoDato.DECIMAL || tipoDer == TipoDato.CADENA); 
+            case TipoAritmetica.RESTA: 
+            case TipoAritmetica.MULTIPLICACION:
+            case TipoAritmetica.MODULO:
+            case TipoAritmetica.DIVISION:
+            case TipoAritmetica.POTENCIA: 
+            return (tipoIzq == TipoDato.ENTERO || tipoIzq == TipoDato.DECIMAL) && 
+                    (tipoDer == TipoDato.ENTERO || tipoDer == TipoDato.DECIMAL); 
+        }
     }
 }

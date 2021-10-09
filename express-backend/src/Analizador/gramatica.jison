@@ -55,11 +55,9 @@
 %% 
 // Producciones
 
-
 INICIO : EXPRESION EOF {
     try {
-        console.log($1);
-        console.log($1.getValor());
+        console.log('valor: ', $1.getValor());
     } catch (e) {
         console.log(e);
         console.error(e.getMessage());
@@ -74,8 +72,8 @@ EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.f
 |EXPRESION tk_mod EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.MODULO)}
 | VALOR {$$ = $1;}; 
 
-VALOR : val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL)}
-| val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO)};
+VALOR : val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL, $1)}
+| val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)};
 
 
 /*INSTRUCCIONES EOF {
