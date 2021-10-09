@@ -1,0 +1,3 @@
+export enum TipoDato {
+    ENTERO, DECIMAL,CADENA, BOOLEANO, DATE, TIME
+}
