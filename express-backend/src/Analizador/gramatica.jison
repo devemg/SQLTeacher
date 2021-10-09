@@ -70,10 +70,14 @@ EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.f
 |EXPRESION tk_div EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.DIVISION)}
 |EXPRESION tk_pot EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.POTENCIA)}
 |EXPRESION tk_mod EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.MODULO)}
+| tk_par1 EXPRESION tk_par2 {$$ = $2}
 | VALOR {$$ = $1;}; 
 
-VALOR : val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL, $1)}
-| val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)};
+VALOR : 
+| tk_resta EXPRESION {$$ = $2}
+| val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL, $1)}
+| val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)}
+;
 
 
 /*INSTRUCCIONES EOF {
