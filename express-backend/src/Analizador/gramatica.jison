@@ -21,6 +21,10 @@
 //definir tokens 
 // ER      retrun 'NOMBRE_TOKEN'
 /* SIMBOLOS */
+\s+											                    // se ignoran espacios en blanco
+"//".*										                    // comentario simple línea
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]			                    // comentario multiple líneas
+
 "+"                                                             return 'tk_suma';
 "-"                                                             return 'tk_resta';
 "*"                                                             return 'tk_por';
@@ -33,6 +37,7 @@
 "?"                                                             return 'tk_interrogacion';
 "::="                                                           return 'tk_asignacion';
 ":"                                                             return 'tk_dpuntos';
+","                                                             return 'tk_coma';
 "<"                                                             return 'tk_menor';
 ">"                                                             return 'tk_mayor';
 "<="                                                            return 'tk_menor_igual';
@@ -58,7 +63,7 @@
 [a-zA-Z_]+[a-zA-Z_0-9]*\b                                       return 'val_variable';
 <<EOF>>                                                         return 'EOF';
 
-.                           { console.log('ERROR LEXICO: ', yytext, yylloc.first_line, yylloc.first_column); errores.push(new ErrorLexico(yytext, yylloc.first_line, yylloc.first_column)); }
+.                           { console.log('error léxico'); errores.push(new ErrorLexico(yytext, yylloc.first_line, yylloc.first_column)); }
 
 /lex
 
@@ -85,12 +90,13 @@ INICIO : INSTRUCCIONES EOF {
     try {
        if ($1) {
             $1.forEach((sentencia) => sentencia.Ejecutar());
+            console.log(errores);
        } else {
             //errores.forEach((error) => console.log(error.getMessage()));
        }
     } catch (e) {
         console.log(e);
-        //console.error(e?.getMessage());
+        console.error(e?.getMessage());
     }
     
 }
@@ -98,7 +104,7 @@ INICIO : INSTRUCCIONES EOF {
 
 INSTRUCCIONES : INSTRUCCIONES INSTRUCCION { $$ = $1.concat($2); } 
 | INSTRUCCION {$$ = [$1] }
-| error { $$ = []; console.log('Error LEXICO: ', yytext); errores.push(new ErrorSintactico(yytext, @1.first_line,@1.first_column)); }
+| error { throw new ErrorSintactico(yytext, @1.first_line,@1.first_column); }
 ; 
 
 INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1};
@@ -107,7 +113,7 @@ INSTRUCCION_PC : DECLARACION {$$ = $1}
 | ASIGNACION  {$$ = $1}
 ;
 
-DECLARACION : TIPO_DATO LISTA_ID tk_igual EXPRESION
+DECLARACION : TIPO_DATO LISTA_ID tk_asignacion EXPRESION
     {$$ = new Declaracion($1, $2, $4, @3.first_line,@3.first_column); }
 | TIPO_DATO LISTA_ID {$$ = new Declaracion($1, $2, null, @1.first_line,@1.first_column); };
 
@@ -115,15 +121,15 @@ ASIGNACION : tk_arr val_variable tk_asignacion EXPRESION
     {$$ = new Asignacion($2, $4, @1.first_line,@1.first_column); }
 ;
 
-TIPO_DATO : tk_int {$$ = TipoDato.ENTERO; }
-| tk_double {$$ = TipoDato.DECIMAL; }
-| tk_boolean {$$ = TipoDato.BOOLEANO; }
-| tk_string {$$ = TipoDato.CADENA; }
-| tk_date {$$ = TipoDato.FECHA; }
-| tk_time {$$ = TipoDato.HORA; }
+TIPO_DATO : pr_int {$$ = TipoDato.ENTERO; }
+| pr_double {$$ = TipoDato.DECIMAL; }
+| pr_boolean {$$ = TipoDato.BOOLEANO; }
+| pr_string {$$ = TipoDato.CADENA; }
+| pr_date {$$ = TipoDato.FECHA; }
+| pr_time {$$ = TipoDato.HORA; }
 ;
 
-LISTA_ID: LISTA_ID coma tk_arr val_variable {$$ = $1.concat($4);}
+LISTA_ID: LISTA_ID tk_coma tk_arr val_variable {$$ = $1.concat($4);}
 | tk_arr val_variable {$$ = [$2]; }
 ;
  
