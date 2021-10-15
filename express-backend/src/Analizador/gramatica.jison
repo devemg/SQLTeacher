@@ -2,9 +2,12 @@
 %{
     const { Valor } = require('./AST/Expresiones/valor');
     const { Aritmetica } = require('./AST/Expresiones/aritmentica');
+    const { LogicaRelacional } = require('./AST/Expresiones/logica-relacional');
     const { TipoDato } = require('./AST/Expresiones/tipos/tipo-dato');
     const { TipoAritmetica } = require('./AST/Expresiones/tipos/tipo-operacion-aritmetica');
+    const { TipoLogicaRelacional } = require('./AST/Expresiones/tipos/tipo-operacion-logica-relacional');
     const { ErrorLexico } = require('./AST/Errores/error-lexico');
+    const { ErrorSintactico } = require('./AST/Errores/error-sintactico');
     const errores = [];
 %}
 
@@ -116,8 +119,8 @@ EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.f
 |EXPRESION tk_pot EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.POTENCIA)}
 |EXPRESION tk_mod EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.MODULO)}
 | tk_par1 EXPRESION tk_par2 {$$ = $2}
-| VALOR
-| CONDICION
+| VALOR {$$ = $2}
+| CONDICION {$$ = $2}
 ;
 /* Aplicamos las precedencias creadas con %prec */
 VALOR : tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.first_column,$2,null,TipoAritmetica.RESTA)}
@@ -126,14 +129,23 @@ VALOR : tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.fi
 ;
 
 CONDICION : EXPRESION tk_menor EXPRESION 
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.MENOR)}
 |  EXPRESION tk_mayor EXPRESION 
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.MAYOR)}
 | EXPRESION tk_menor_igual EXPRESION 
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.MENOR_IGUAL)}
 | EXPRESION tk_mayor_igual EXPRESION 
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.MAYOR_IGUAL)}
 | EXPRESION tk_igual tk_igual EXPRESION 
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.IGUAL)}
 | EXPRESION tk_diferente EXPRESION 
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.DIFERENTE)}
 | EXPRESION tk_and EXPRESION 
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.AND)}
 | EXPRESION tk_or EXPRESION
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.OR)}
 ;
+// pendiente implementar or
 
 /*
 
