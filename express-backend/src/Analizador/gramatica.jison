@@ -8,6 +8,9 @@
     const { TipoLogicaRelacional } = require('./AST/Expresiones/tipos/tipo-operacion-logica-relacional');
     const { ErrorLexico } = require('./AST/Errores/error-lexico');
     const { ErrorSintactico } = require('./AST/Errores/error-sintactico');
+    const { Asignacion } = require('./AST/Sentencias/asignacion');
+    const { Declaracion } = require('./AST/Sentencias/declaracion');
+    
     const errores = [];
 %}
 
@@ -80,37 +83,45 @@
 
 INICIO : INSTRUCCIONES EOF {
     try {
-        //$1.forEach((sentencia) => sentencia.Ejecutar());
+        $1.forEach((sentencia) => sentencia.Ejecutar());
     } catch (e) {
         //console.log(e);
         console.error(e.getMessage());
     }
     
-};
+}
+;
 
 INSTRUCCIONES : INSTRUCCIONES INSTRUCCION { $$ = $1.concat($2); } 
 | INSTRUCCION {$$ = [$1] }
-| error { errores.push(new ErrorSintactico(yytext, @1.first_line,@1.first_column)); }; 
+| error { errores.push(new ErrorSintactico(yytext, @1.first_line,@1.first_column)); }
+; 
 
-INSTRUCCION : INSTRUCCION_PC tk_pycoma;
+INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1};
 
-INSTRUCCION_PC : DECLARACION 
-| ASIGNACION;
+INSTRUCCION_PC : DECLARACION {$$ = $1}
+| ASIGNACION  {$$ = $1}
+;
 
 DECLARACION : TIPO_DATO LISTA_ID tk_igual EXPRESION
-| TIPO_DATO LISTA_ID;
+    {$$ = new Declaracion($1, $2, $4, @3.first_line,@3.first_column); }
+| TIPO_DATO LISTA_ID {$$ = new Declaracion($1, $2, null, @1.first_line,@1.first_column); };
 
-ASIGNACION : tk_arr val_variable tk_asignacion EXPRESION;
+ASIGNACION : tk_arr val_variable tk_asignacion EXPRESION 
+    {$$ = new Asignacion($2, $4, @1.first_line,@1.first_column); }
+;
 
-TIPO_DATO : tk_int
-| tk_double 
-| tk_boolean 
-| tk_string
-| tk_date
-| tk_time;
+TIPO_DATO : tk_int {$$ = TipoDato.ENTERO; }
+| tk_double {$$ = TipoDato.DECIMAL; }
+| tk_boolean {$$ = TipoDato.BOOLEANO; }
+| tk_string {$$ = TipoDato.CADENA; }
+| tk_date {$$ = TipoDato.FECHA; }
+| tk_time {$$ = TipoDato.HORA; }
+;
 
-LISTA_ID: LISTA_ID coma tk_arr val_variable
-| tk_arr val_variable;
+LISTA_ID: LISTA_ID coma tk_arr val_variable {$$ = $1.concat($4);}
+| tk_arr val_variable {$$ = [$2]; }
+;
  
 EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.SUMA)}
 |EXPRESION tk_resta EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.RESTA)}
