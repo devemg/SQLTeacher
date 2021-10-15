@@ -31,8 +31,8 @@
 ")"                                                             return 'tk_par2';
 ";"                                                             return 'tk_pycoma';
 "?"                                                             return 'tk_interrogacion';
-":"                                                             return 'tk_dpuntos';
 "::="                                                           return 'tk_asignacion';
+":"                                                             return 'tk_dpuntos';
 "<"                                                             return 'tk_menor';
 ">"                                                             return 'tk_mayor';
 "<="                                                            return 'tk_menor_igual';
@@ -42,7 +42,7 @@
 "="                                                             return 'tk_igual';
 "||"                                                            return 'tk_or';
 "&&"                                                            return 'tk_and';
-"@"                                                             return 'pr_arr';
+"@"                                                             return 'tk_arr';
 /* PALABRAS RESERVADAS */
 "null"                                                          return 'pr_null';
 "int"                                                           return 'pr_int';
@@ -55,10 +55,10 @@
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
 [0-9]+                                                          return 'val_entero';
-[a-zA-Z_]+[a-zA-Z_0-9]*\b                                       return 'val_id';
+[a-zA-Z_]+[a-zA-Z_0-9]*\b                                       return 'val_variable';
 <<EOF>>                                                         return 'EOF';
 
-.                           { errores.push(new ErrorLexico(yytext, yylloc.first_line, yylloc.first_column)); }
+.                           { console.log('ERROR LEXICO: ', yytext, yylloc.first_line, yylloc.first_column); errores.push(new ErrorLexico(yytext, yylloc.first_line, yylloc.first_column)); }
 
 /lex
 
@@ -83,10 +83,14 @@
 
 INICIO : INSTRUCCIONES EOF {
     try {
-        $1.forEach((sentencia) => sentencia.Ejecutar());
+       if ($1) {
+            $1.forEach((sentencia) => sentencia.Ejecutar());
+       } else {
+            //errores.forEach((error) => console.log(error.getMessage()));
+       }
     } catch (e) {
-        //console.log(e);
-        console.error(e.getMessage());
+        console.log(e);
+        //console.error(e?.getMessage());
     }
     
 }
@@ -94,7 +98,7 @@ INICIO : INSTRUCCIONES EOF {
 
 INSTRUCCIONES : INSTRUCCIONES INSTRUCCION { $$ = $1.concat($2); } 
 | INSTRUCCION {$$ = [$1] }
-| error { errores.push(new ErrorSintactico(yytext, @1.first_line,@1.first_column)); }
+| error { $$ = []; console.log('Error LEXICO: ', yytext); errores.push(new ErrorSintactico(yytext, @1.first_line,@1.first_column)); }
 ; 
 
 INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1};
@@ -130,8 +134,8 @@ EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.f
 |EXPRESION tk_pot EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.POTENCIA)}
 |EXPRESION tk_mod EXPRESION { $$ = new Aritmetica(@2.first_line,@2.first_column,$1,$3,TipoAritmetica.MODULO)}
 | tk_par1 EXPRESION tk_par2 {$$ = $2}
-| VALOR {$$ = $2}
-| CONDICION {$$ = $2}
+| VALOR {$$ = $1}
+| CONDICION {$$ = $1}
 ;
 /* Aplicamos las precedencias creadas con %prec */
 VALOR : tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.first_column,$2,null,TipoAritmetica.RESTA)}
