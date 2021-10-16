@@ -147,4 +147,8 @@ export class Aritmetica extends Expresion {
                     (tipoDer == TipoDato.ENTERO || tipoDer == TipoDato.DECIMAL); 
         }
     }
+
+    getCodigoAST(): { codigo: string, nombreNodo: string } {
+        return { codigo: 'EXPRESION', nombreNodo: 'EXPRESION' };
+    }
 }

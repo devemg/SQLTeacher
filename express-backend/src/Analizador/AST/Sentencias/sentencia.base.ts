@@ -1,3 +1,5 @@
+import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+
 export abstract class Sentencia {
     linea: number;
     columna: number; 
@@ -7,5 +9,8 @@ export abstract class Sentencia {
         this.columna = columna;
     }
 
-    abstract Ejecutar(): void;
+    abstract Ejecutar(tsActual: TablaSimbolos): void;
+
+    abstract getCodigoAST(): { codigo: string, nombreNodo: string };
+
 }

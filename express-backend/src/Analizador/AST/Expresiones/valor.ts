@@ -30,4 +30,8 @@ export class Valor extends Expresion {
         return this.tipo;
     }
 
+    getCodigoAST(): { codigo: string, nombreNodo: string } {
+        return { codigo: '', nombreNodo: '' };
+    }
+
 }

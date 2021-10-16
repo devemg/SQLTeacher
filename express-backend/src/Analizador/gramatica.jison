@@ -31,6 +31,8 @@
 "**"                                                            return 'tk_pot';
 "/"                                                             return 'tk_div';
 "%"                                                             return 'tk_mod';
+"{"                                                             return 'tk_llave1';
+"}"                                                             return 'tk_llave2';
 "("                                                             return 'tk_par1';
 ")"                                                             return 'tk_par2';
 ";"                                                             return 'tk_pycoma';
@@ -56,6 +58,7 @@
 "string"                                                        return 'pr_string';
 "date"                                                          return 'pr_date';
 "time"                                                          return 'pr_time';
+"function"                                                          return 'pr_function';
 
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
@@ -89,7 +92,19 @@
 INICIO : INSTRUCCIONES EOF {
     try {
        if ($1) {
+           //const global = new TablaSimbolos();
             $1.forEach((sentencia) => sentencia.Ejecutar());
+
+            let codigoFinal = 'digraph G { \n principal[label="AST"];\n';
+            $1.forEach((sentencia) => {
+
+                const codigo = sentencia.getCodigoAST();
+                codigoFinal = codigoFinal + `
+                ${codigo.codigo}\n
+                principal -> ${codigo.nombreNodo};\n`;
+            });
+            codigoFinal = codigoFinal + '}';
+            console.log(codigoFinal);
             console.log(errores);
        } else {
             //errores.forEach((error) => console.log(error.getMessage()));
@@ -101,6 +116,13 @@ INICIO : INSTRUCCIONES EOF {
     
 }
 ;
+
+FUNCIONES : FUNCIONES FUNCION { $$ = $1.concat($2); } 
+| FUNCION {$$ = [$1] }
+| error { throw new ErrorSintactico(yytext, @1.first_line,@1.first_column); }
+; 
+
+FUNCION : pr_function val_variable tk_par1 tk_par2 tk_llave1 INSTRUCCIONES tk_llave2; 
 
 INSTRUCCIONES : INSTRUCCIONES INSTRUCCION { $$ = $1.concat($2); } 
 | INSTRUCCION {$$ = [$1] }

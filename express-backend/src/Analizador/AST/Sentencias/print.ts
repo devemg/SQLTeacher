@@ -16,4 +16,8 @@ export class Print extends Sentencia {
         console.log(this.mensaje);
     }
 
+    getCodigoAST(): { codigo: string, nombreNodo: string } {
+        return { codigo: '', nombreNodo: '' };
+    }
+    
 }

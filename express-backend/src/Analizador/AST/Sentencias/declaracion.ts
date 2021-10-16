@@ -18,4 +18,8 @@ export class Declaracion extends Sentencia {
         console.log('DECLARAR', this);
     }
 
+    getCodigoAST(): { codigo: string, nombreNodo: string } {
+        return { codigo: '', nombreNodo: '' };
+    }
+
 }

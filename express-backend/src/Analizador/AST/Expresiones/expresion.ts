@@ -11,4 +11,6 @@ export abstract class Expresion {
 
     abstract getTipo(): any;
 
+    abstract getCodigoAST(): { codigo: string, nombreNodo: string };
+    
 }

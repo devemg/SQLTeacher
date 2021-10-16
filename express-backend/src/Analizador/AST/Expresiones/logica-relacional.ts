@@ -107,4 +107,8 @@ export class LogicaRelacional extends Expresion {
                 throw new ErrorSemantico(`Operación lógica y relacional entre ${tipoIzq} y ${tipoDer} no soportada`, this.linea, this.columna);
         }
     }
+
+    getCodigoAST(): { codigo: string, nombreNodo: string } {
+        return { codigo: '', nombreNodo: '' };
+    }
 }
