@@ -1,7 +1,8 @@
 import { Expresion } from "../Expresiones/expresion";
 import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Sentencia } from "./sentencia.base";
-import { v4 as uuidv4 } from 'uuid';
+import { ErrorSemantico } from "../Errores/error-semantico";
+import { TipoDato } from "../Expresiones/tipos/tipo-dato";
 
 export class Asignacion extends Sentencia {
     variable: string;
@@ -14,7 +15,33 @@ export class Asignacion extends Sentencia {
     }
 
     Ejecutar(tsActual: TablaSimbolos): void {
-       console.log('ASIGNAR', this); 
+        let sim = tsActual.getSimbolo(this.variable);
+       if (sim) {
+        // comprobación de tipos 
+        //revisar casteos implicitos
+        if (this.canCast(sim.tipoDato)) {
+            sim.valor = this.expresion.getValor(); // asignando valor
+        } else {
+            throw new ErrorSemantico(`El tipo de dato no se puede asignar a ${this.variable}. `,this.linea, this.columna);            
+        }
+
+    } else {
+        throw new ErrorSemantico(`La variable "${this.variable}" no existe. `,this.linea, this.columna);
+       }
+    }
+
+    /**
+     * Revisa si se puede o no asignar un valor por los tipos
+     * @param tipo tipo de dato de simbolo
+     * @returns si se puede asignar el valor
+     */
+    canCast(tipo: TipoDato): boolean {
+        let exptipo = this.expresion.getTipo();
+        if (exptipo === tipo) return true;
+        if (tipo == TipoDato.ENTERO || tipo == TipoDato.DECIMAL) {
+            return exptipo === TipoDato.ENTERO || exptipo === TipoDato.DECIMAL;
+        }
+        return false;
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

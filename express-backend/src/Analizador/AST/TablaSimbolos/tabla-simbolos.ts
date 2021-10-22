@@ -1,9 +1,20 @@
 import { ErrorSemantico } from "../Errores/error-semantico";
 import { TipoDato } from "../Expresiones/tipos/tipo-dato";
 
-export class TablaSimbolos extends Array<Simbolo> {
+export class TablaSimbolos {
+    private ambito: string;
+    private values: Array<Simbolo> = [];
+
+    constructor(ambito: string) {
+        this.ambito = ambito;
+    }
+
+    getAmbito(): string {
+        return this.ambito;
+    }
+
     mostrarEnConsola(): void {
-        this.forEach(element => {
+        this.values.forEach(element => {
             console.log('TABLA SIMBOLOS ---------------------------------------------------------------');
             console.log(element);
             console.log('------------------------------------------------------------------------------');
@@ -16,17 +27,17 @@ export class TablaSimbolos extends Array<Simbolo> {
      */
     add(simbolo: Simbolo) {
     let found = false;
-        this.forEach(element => {
-            if (element.variable === simbolo.variable) {
+        this.values.forEach(element => {
+            if (element.nombre === simbolo.nombre) {
                 found = true;
                 return;
             }
         });
-    if (!found) {
-        this.add(simbolo);
-    } else {
-        throw new ErrorSemantico(`La variable ${simbolo.variable} ya existe`, simbolo.linea, simbolo.columna);
-    }
+        if (!found) {
+            this.values.push(simbolo);
+        } else {
+            throw new ErrorSemantico(`La variable ${simbolo.nombre} ya existe`, simbolo.linea, simbolo.columna);
+        }
     }
 
     /**
@@ -34,26 +45,48 @@ export class TablaSimbolos extends Array<Simbolo> {
      * @param variable 
      * @returns 
      */
-    get(variable: string): Simbolo | null {
-        const list = this.filter(value => value.variable === variable);
+     getSimbolo(variable: string): Simbolo | null {
+        const list = this.values.filter(value => value.nombre === variable);
         return list.length > 0 ? list[0] : null;
+    }
+
+    exists(nombre: string): boolean {
+        let i;
+        for(i = 0; i < this.values.length; i++) {
+            if (this.values[i].nombre == nombre) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
 export class Simbolo {
     linea: number;
     columna: number;
-    variable: string;
+    nombre: string;
     valor: any;
     tipoDato: TipoDato;
     ambito: string;
 
-    constructor(tipoDato: TipoDato, variable: string, valor: any, ambito: string, linea: number, columna: number) {
+    constructor(tipoDato: TipoDato, nombre: string, valor: any, ambito: string, linea: number, columna: number) {
         this.tipoDato = tipoDato;
-        this.variable = variable;
+        this.nombre = nombre;
         this.valor = valor;
         this.ambito = ambito;
         this.linea = linea;
         this.columna = columna;
     }
+}
+
+export interface Fecha {
+    dia: number;
+    mes: number;
+    anio: number;
+}
+
+export interface Hora {
+    hora: number; 
+    minutos: number; 
+    segundos: number;
 }

@@ -10,7 +10,9 @@
     const { ErrorSintactico } = require('./AST/Errores/error-sintactico');
     const { Asignacion } = require('./AST/Sentencias/asignacion');
     const { Declaracion } = require('./AST/Sentencias/declaracion');
-    
+    const { TablaSimbolos } = require('./AST/TablaSimbolos/tabla-simbolos');
+    const { Print } = require('./AST/Sentencias/print');
+
     const errores = [];
 %}
 
@@ -59,6 +61,7 @@
 "date"                                                          return 'pr_date';
 "time"                                                          return 'pr_time';
 "function"                                                          return 'pr_function';
+"print"                                                          return 'pr_print';
 
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
@@ -92,10 +95,10 @@
 INICIO : INSTRUCCIONES EOF {
     try {
        if ($1) {
-           //const global = new TablaSimbolos();
-            $1.forEach((sentencia) => sentencia.Ejecutar());
+           const tsGlobal = new TablaSimbolos('global');
+            $1.forEach((sentencia) => sentencia.Ejecutar(tsGlobal));
 
-            let codigoFinal = 'digraph G { \n principal[label="AST"];\n';
+            /*let codigoFinal = 'digraph G { \n principal[label="AST"];\n';
             $1.forEach((sentencia) => {
 
                 const codigo = sentencia.getCodigoAST();
@@ -103,15 +106,14 @@ INICIO : INSTRUCCIONES EOF {
                 ${codigo.codigo}\n
                 principal -> ${codigo.nombreNodo};\n`;
             });
-            codigoFinal = codigoFinal + '}';
-            console.log(codigoFinal);
-            console.log(errores);
+            codigoFinal = codigoFinal + '}';*/
        } else {
             //errores.forEach((error) => console.log(error.getMessage()));
        }
     } catch (e) {
-        console.log(e);
-        console.error(e?.getMessage());
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        //console.log(e);
+        console.error(e);
     }
     
 }
@@ -133,6 +135,7 @@ INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1};
 
 INSTRUCCION_PC : DECLARACION {$$ = $1}
 | ASIGNACION  {$$ = $1}
+| PRINT {$$ = $1}
 ;
 
 DECLARACION : TIPO_DATO LISTA_ID tk_asignacion EXPRESION
@@ -142,6 +145,8 @@ DECLARACION : TIPO_DATO LISTA_ID tk_asignacion EXPRESION
 ASIGNACION : tk_arr val_variable tk_asignacion EXPRESION 
     {$$ = new Asignacion($2, $4, @1.first_line,@1.first_column); }
 ;
+
+PRINT : pr_print tk_par1 EXPRESION tk_par2 {{$$ = new Print($3, @1.first_line,@1.first_column); }};
 
 TIPO_DATO : pr_int {$$ = TipoDato.ENTERO; }
 | pr_double {$$ = TipoDato.DECIMAL; }

@@ -1,19 +1,20 @@
+import { Expresion } from "../Expresiones/expresion";
 import { Sentencia } from "./sentencia.base";
 
 export class Print extends Sentencia {
 
-    mensaje: string;
+    valor: Expresion;
 
-    constructor(mensaje: string, linea: number, columna: number) {
+    constructor(valor: Expresion, linea: number, columna: number) {
         super(linea, columna);
-        this.mensaje = mensaje;
+        this.valor = valor;
     }
 
     Ejecutar() {
         // \t ->  
         // \n -> salto de linea 
         // ......   
-        console.log(this.mensaje);
+        console.log(this.valor.getValor());
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {
