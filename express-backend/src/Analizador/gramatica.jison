@@ -1,6 +1,7 @@
 ///configuraciones
 %{
     const { Valor } = require('./AST/Expresiones/valor');
+    const { Variable } = require('./AST/Expresiones/variable');
     const { Aritmetica } = require('./AST/Expresiones/aritmentica');
     const { LogicaRelacional } = require('./AST/Expresiones/logica-relacional');
     const { TipoDato } = require('./AST/Expresiones/tipos/tipo-dato');
@@ -12,6 +13,8 @@
     const { Declaracion } = require('./AST/Sentencias/declaracion');
     const { TablaSimbolos } = require('./AST/TablaSimbolos/tabla-simbolos');
     const { Print } = require('./AST/Sentencias/print');
+    const { For } = require('./AST/Sentencias/for');
+    const { Incremento } = require('./AST/Sentencias/incremento');
 
     const errores = [];
 %}
@@ -62,6 +65,7 @@
 "time"                                                          return 'pr_time';
 "function"                                                          return 'pr_function';
 "print"                                                          return 'pr_print';
+"for"                                                          return 'pr_for';
 
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
@@ -124,19 +128,34 @@ FUNCIONES : FUNCIONES FUNCION { $$ = $1.concat($2); }
 | error { throw new ErrorSintactico(yytext, @1.first_line,@1.first_column); }
 ; 
 
-FUNCION : pr_function val_variable tk_par1 tk_par2 tk_llave1 INSTRUCCIONES tk_llave2; 
+FUNCION : pr_function val_variable tk_par1 tk_par2 BLOQUE;
+
+BLOQUE : tk_llave1 INSTRUCCIONES tk_llave2;
 
 INSTRUCCIONES : INSTRUCCIONES INSTRUCCION { $$ = $1.concat($2); } 
 | INSTRUCCION {$$ = [$1] }
 | error { throw new ErrorSintactico(yytext, @1.first_line,@1.first_column); }
 ; 
 
-INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1};
+INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1}
+| INSTRUCCION_SPC {$$ = $1}
+;
 
 INSTRUCCION_PC : DECLARACION {$$ = $1}
 | ASIGNACION  {$$ = $1}
 | PRINT {$$ = $1}
 ;
+
+INSTRUCCION_SPC : FOR {$$ = $1}
+;
+
+FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_asignacion EXPRESION tk_pycoma 
+    CONDICION tk_pycoma
+    INCREMENTO tk_par2 BLOQUE {
+    $$ = new For(new Declaracion($3, [$5], $7, @3.first_line,@3.first_column),$9, $11, [], @1.first_line,@1.first_column);
+};
+
+INCREMENTO: tk_arr val_variable tk_suma tk_suma { $$ = new Incremento($2,@1.first_line,@1.first_column); };
 
 DECLARACION : TIPO_DATO LISTA_ID tk_asignacion EXPRESION
     {$$ = new Declaracion($1, $2, $4, @3.first_line,@3.first_column); }
@@ -174,6 +193,7 @@ EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.f
 VALOR : tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.first_column,$2,null,TipoAritmetica.RESTA)}
 | val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL, $1)}
 | val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)}
+| tk_arr val_variable { $$ = new Variable($2,@1.first_line,@1.first_column)}
 ;
 
 CONDICION : EXPRESION tk_menor EXPRESION 
@@ -196,10 +216,6 @@ CONDICION : EXPRESION tk_menor EXPRESION
 // pendiente implementar or
 
 /*
-
-INCREMENTO = val_variable tk_suma tk_suma;
-DECREMENTO = val_variable tk_resta tk_resta;
-
 ASIGN_OPERACION = val_variable AOP;
 
 AOP : tk_suma tk_igual
