@@ -22,8 +22,7 @@ export class For extends Sentencia {
     }
 
     Ejecutar(tsActual: TablaSimbolos): void {
-        console.log(this);
-        return;
+        
         const tsFor = new TablaSimbolos(tsActual.getAmbito()+'_for');
         // declaracion 
         this.declaracion.Ejecutar(tsFor);
