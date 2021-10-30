@@ -21,7 +21,7 @@ export class For extends Sentencia {
     }
 
     Ejecutar(tsActual: TablaSimbolos): void {
-        const tsFor = new TablaSimbolos(tsActual.getAmbito()+'_for');
+        const tsFor = new TablaSimbolos(tsActual.getAmbito()+'_for', tsActual);
         // declaracion 
         this.declaracion.Ejecutar(tsFor);
         let contador = 0;

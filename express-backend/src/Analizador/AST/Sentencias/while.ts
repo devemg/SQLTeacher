@@ -16,7 +16,7 @@ export class SWhile extends Sentencia {
     }
 
     Ejecutar(tsActual: TablaSimbolos): void {
-        const tswhile = new TablaSimbolos(tsActual.getAmbito()+'_while');
+        const tswhile = new TablaSimbolos(tsActual.getAmbito()+'_while', tsActual);
         // declaracion 
         let contador = 0;
         while (true) {

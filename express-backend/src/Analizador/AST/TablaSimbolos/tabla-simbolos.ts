@@ -4,9 +4,11 @@ import { TipoDato } from "../Expresiones/tipos/tipo-dato";
 export class TablaSimbolos {
     private ambito: string;
     private values: Array<Simbolo> = [];
+    private padre: TablaSimbolos | null;
 
-    constructor(ambito: string) {
+    constructor(ambito: string, tablaPadre: TablaSimbolos) {
         this.ambito = ambito;
+        this.padre = tablaPadre;
     }
 
     getAmbito(): string {
@@ -47,7 +49,11 @@ export class TablaSimbolos {
      */
      getSimbolo(variable: string): Simbolo | null {
         const list = this.values.filter(value => value.nombre === variable);
-        return list.length > 0 ? list[0] : null;
+        if (list.length > 0) {
+            // si existe 
+            return list[0];
+        }
+        return this.padre ? this.padre.getSimbolo(variable) : null;
     }
 
     exists(nombre: string): boolean {
@@ -57,7 +63,7 @@ export class TablaSimbolos {
                 return true;
             }
         }
-        return false;
+        return this.padre ? this.padre.exists(nombre) : false;
     }
 }
 
