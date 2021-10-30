@@ -64,15 +64,16 @@
 "string"                                                        return 'pr_string';
 "date"                                                          return 'pr_date';
 "time"                                                          return 'pr_time';
-"function"                                                          return 'pr_function';
-"print"                                                          return 'pr_print';
-"for"                                                          return 'pr_for';
-"while"                                                          return 'pr_while';
+"function"                                                      return 'pr_function';
+"print"                                                         return 'pr_print';
+"for"                                                           return 'pr_for';
+"while"                                                         return 'pr_while';
 
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
 [0-9]+                                                          return 'val_entero';
 [a-zA-Z_]+[a-zA-Z_0-9]*\b                                       return 'val_variable';
+\"[^\"]*\"\b                                                      return 'val_cadena';
 <<EOF>>                                                         return 'EOF';
 
 .                           { console.log('error léxico'); errores.push(new ErrorLexico(yytext, yylloc.first_line, yylloc.first_column)); }
@@ -199,6 +200,7 @@ VALOR : tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.fi
 | val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL, $1)}
 | val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)}
 | tk_arr val_variable { $$ = new Variable($2,@1.first_line,@1.first_column)}
+| val_cadena { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.CADENA, $1)}
 ;
 
 CONDICION : EXPRESION tk_menor EXPRESION 

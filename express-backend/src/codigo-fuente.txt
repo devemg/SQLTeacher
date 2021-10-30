@@ -1,9 +1,12 @@
 int @variable;
 int @variable2 ::= 0;
+//print ("FOR-------------------------------------------->");
 for (int @cuenta ::= 0; @cuenta < 5; @cuenta++) {
     print (@cuenta);
 }
 
+//print ("WHILE-------------------------------------------->");
 while (@variable2<4) {
     print (@variable2);
+    @variable2 ::= @variable2 + 1;
 }
