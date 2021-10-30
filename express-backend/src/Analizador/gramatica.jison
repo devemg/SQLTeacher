@@ -14,6 +14,7 @@
     const { TablaSimbolos } = require('./AST/TablaSimbolos/tabla-simbolos');
     const { Print } = require('./AST/Sentencias/print');
     const { For } = require('./AST/Sentencias/for');
+    const { SWhile } = require('./AST/Sentencias/while');
     const { Incremento } = require('./AST/Sentencias/incremento');
 
     const errores = [];
@@ -66,6 +67,7 @@
 "function"                                                          return 'pr_function';
 "print"                                                          return 'pr_print';
 "for"                                                          return 'pr_for';
+"while"                                                          return 'pr_while';
 
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
@@ -147,6 +149,7 @@ INSTRUCCION_PC : DECLARACION {$$ = $1}
 ;
 
 INSTRUCCION_SPC : FOR {$$ = $1}
+|WHILE {$$ = $1}
 ;
 
 FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_asignacion EXPRESION tk_pycoma 
@@ -154,6 +157,8 @@ FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_asignacion EXPRESION tk_pyc
     INCREMENTO tk_par2 BLOQUE {
     $$ = new For(new Declaracion($3, [$5], $7, @3.first_line,@3.first_column),$9, $11, $13, @1.first_line,@1.first_column);
 };
+
+WHILE : pr_while tk_par1 CONDICION tk_par2 BLOQUE {$$ = new SWhile($3,$5,@1.first_line,@1.first_column); };
 
 INCREMENTO: tk_arr val_variable tk_suma tk_suma { $$ = new Incremento($2,@1.first_line,@1.first_column); };
 

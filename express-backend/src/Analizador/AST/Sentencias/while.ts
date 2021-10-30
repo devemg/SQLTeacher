@@ -4,41 +4,32 @@ import { Declaracion } from "./declaracion";
 import { Incremento } from "./incremento";
 import { Sentencia } from "./sentencia.base";
 
-export class For extends Sentencia {
-    declaracion: Declaracion;
+export class SWhile extends Sentencia {
     condicion: LogicaRelacional;
     listaSentencias:  Array<Sentencia>;
-    incremento: Incremento;
 
-    constructor(declaracion: Declaracion, condicion: LogicaRelacional, incremento: Incremento, 
-        listaSent: Array<Sentencia>, linea: number, columna: number) {
+    constructor(condicion: LogicaRelacional,listaSent: Array<Sentencia>, linea: number, columna: number) {
         super(linea,columna);
         // asignar 
-        this.declaracion = declaracion;
         this.listaSentencias = listaSent;
         this.condicion = condicion;
-        this.incremento = incremento;
     }
 
     Ejecutar(tsActual: TablaSimbolos): void {
-        const tsFor = new TablaSimbolos(tsActual.getAmbito()+'_for');
+        const tswhile = new TablaSimbolos(tsActual.getAmbito()+'_while');
         // declaracion 
-        this.declaracion.Ejecutar(tsFor);
         let contador = 0;
         while (true) {
             // comprobacion de tipos
-            if (!this.condicion.getValor(tsFor)) {
+            if (!this.condicion.getValor(tswhile)) {
                 break;
             }
             if (contador == 10000000000) break; // condicion para parar evitar ciclos infinitos
             
             // ejecución            
             this.listaSentencias.forEach(element => {
-                element.Ejecutar(tsFor);
+                element.Ejecutar(tswhile);
             });
-
-            // ejecutar incremento
-            this.incremento.Ejecutar(tsFor);
             contador++;
         }   
     }
@@ -47,12 +38,3 @@ export class For extends Sentencia {
         return { codigo: '', nombreNodo: ''};
     }
 }
-
-/**
- * 
- * for (int @a = 0; @a < 10; @a++) {
- *  print('Hola');
- * }
- * 
- * 
- */
