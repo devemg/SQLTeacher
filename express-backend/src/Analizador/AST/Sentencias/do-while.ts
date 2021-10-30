@@ -2,7 +2,7 @@ import { LogicaRelacional } from "../Expresiones/logica-relacional";
 import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Sentencia } from "./sentencia.base";
 
-export class SWhile extends Sentencia {
+export class SDoWhile extends Sentencia {
     condicion: LogicaRelacional;
     listaSentencias:  Array<Sentencia>;
 
@@ -14,20 +14,20 @@ export class SWhile extends Sentencia {
     }
 
     Ejecutar(tsActual: TablaSimbolos): void {
-        const tswhile = new TablaSimbolos(tsActual.getAmbito()+'_while', tsActual);
+        const tswhile = new TablaSimbolos(tsActual.getAmbito()+'_do_while', tsActual);
         // declaracion 
         let contador = 0;
-        while (true) {
+        while (true) {            
+            // ejecución            
+            this.listaSentencias.forEach(element => {
+                element.Ejecutar(tswhile);
+            });
+
             // comprobacion de tipos
             if (!this.condicion.getValor(tswhile)) {
                 break;
             }
             if (contador == 10000000000) break; // condicion para parar evitar ciclos infinitos
-            
-            // ejecución            
-            this.listaSentencias.forEach(element => {
-                element.Ejecutar(tswhile);
-            });
             contador++;
         }   
     }

@@ -15,6 +15,7 @@
     const { Print } = require('./AST/Sentencias/print');
     const { For } = require('./AST/Sentencias/for');
     const { SWhile } = require('./AST/Sentencias/while');
+    const { SDoWhile } = require('./AST/Sentencias/do-while');
     const { Incremento } = require('./AST/Sentencias/incremento');
 
     const errores = [];
@@ -68,6 +69,7 @@
 "print"                                                         return 'pr_print';
 "for"                                                           return 'pr_for';
 "while"                                                         return 'pr_while';
+"do"                                                            return 'pr_do';
 
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
@@ -147,6 +149,7 @@ INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1}
 INSTRUCCION_PC : DECLARACION {$$ = $1}
 | ASIGNACION  {$$ = $1}
 | PRINT {$$ = $1}
+|DOWHILE {$$ = $1}
 ;
 
 INSTRUCCION_SPC : FOR {$$ = $1}
@@ -160,6 +163,8 @@ FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_asignacion EXPRESION tk_pyc
 };
 
 WHILE : pr_while tk_par1 CONDICION tk_par2 BLOQUE {$$ = new SWhile($3,$5,@1.first_line,@1.first_column); };
+
+DOWHILE : pr_do BLOQUE pr_while tk_par1 CONDICION tk_par2 {$$ = new SDoWhile($5,$2,@1.first_line,@1.first_column); };
 
 INCREMENTO: tk_arr val_variable tk_suma tk_suma { $$ = new Incremento($2,@1.first_line,@1.first_column); };
 

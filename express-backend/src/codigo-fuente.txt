@@ -10,3 +10,10 @@ while (@variable2<4) {
     print (@variable2);
     @variable2 ::= @variable2 + 1;
 }
+
+//print ("DO WHILE-------------------------------------------->");
+@variable2 ::= 0;
+do {
+    print (@variable2);
+    @variable2 ::= @variable2 + 1;
+} while (@variable2<4);
