@@ -22,21 +22,22 @@ export class For extends Sentencia {
     }
 
     Ejecutar(tsActual: TablaSimbolos): void {
-        
         const tsFor = new TablaSimbolos(tsActual.getAmbito()+'_for');
         // declaracion 
         this.declaracion.Ejecutar(tsFor);
         let contador = 0;
         while (true) {
+            // comprobacion de tipos
+            if (!this.condicion.getValor(tsFor)) {
+                break;
+            }
+            if (contador == 10000000000) break; // condicion para parar evitar ciclos infinitos
+            
+            // ejecución            
             this.listaSentencias.forEach(element => {
                 element.Ejecutar(tsFor);
             });
 
-            // comprobacion de tipos
-            if (!this.condicion.getValor()) {
-                break;
-            }
-            if (contador == 10000000000) break; // condicion para parar evitar ciclos infinitos
             // ejecutar incremento
             this.incremento.Ejecutar(tsFor);
             contador++;

@@ -1,3 +1,5 @@
+import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+
 export abstract class Expresion {
     linea: number;
     columna: number; 
@@ -7,9 +9,9 @@ export abstract class Expresion {
         this.columna = columna;
     }
 
-    abstract getValor(): any;
+    abstract getValor(tabla: TablaSimbolos): any;
 
-    abstract getTipo(): any;
+    abstract getTipo(tablaSimbolos: TablaSimbolos): any;
 
     abstract getCodigoAST(): { codigo: string, nombreNodo: string };
     

@@ -1,4 +1,5 @@
 import { Expresion } from "../Expresiones/expresion";
+import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Sentencia } from "./sentencia.base";
 
 export class Print extends Sentencia {
@@ -10,11 +11,11 @@ export class Print extends Sentencia {
         this.valor = valor;
     }
 
-    Ejecutar() {
+    Ejecutar(tablaSimbolos: TablaSimbolos) {
         // \t ->  
         // \n -> salto de linea 
         // ......   
-        console.log(this.valor.getValor());
+        console.log(this.valor.getValor(tablaSimbolos));
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

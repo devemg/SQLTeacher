@@ -1,3 +1,5 @@
+import { ErrorSemantico } from "../Errores/error-semantico";
+import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Expresion } from "./expresion";
 import { TipoDato } from "./tipos/tipo-dato";
 
@@ -13,16 +15,26 @@ export class Variable extends Expresion {
      * Obtiene el valor almacenado
      * @returns valor
      */
-    getValor(): any {
-       return 0;
+    getValor(tablaSimbolos: TablaSimbolos): any {
+        const variable = tablaSimbolos.getSimbolo(this.nombre);
+        if (variable) {
+            return variable.valor;
+        } else {
+            throw new ErrorSemantico(`La variable "${this.nombre}" no existe`, this.linea, this.columna);
+        }
     }
 
     /**
      * Obtiene el tipo de dato asignado al valor
      * @returns Tipo de dato
      */
-    getTipo(): TipoDato {
-        return TipoDato.ENTERO;
+    getTipo(tablaSimbolos: TablaSimbolos): TipoDato {
+        const variable = tablaSimbolos.getSimbolo(this.nombre);
+        if (variable) {
+            return variable.tipoDato;
+        } else {
+            throw new ErrorSemantico(`La variable "${this.nombre}" no existe`, this.linea, this.columna);
+        }
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

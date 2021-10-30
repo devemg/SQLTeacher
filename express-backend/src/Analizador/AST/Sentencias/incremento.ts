@@ -14,7 +14,7 @@ export class Incremento extends Sentencia {
         // al obtener el valor, se retorna el valor de la variable y luego aumenta en 1 el valor
         // en este caso no nos interesa el valor que se retorna
         // nos interesa la acción de sumar un elemento
-        this.incremento.getValor();
+        this.incremento.getValor(tActual);
     }
 
     getCodigoAST() {

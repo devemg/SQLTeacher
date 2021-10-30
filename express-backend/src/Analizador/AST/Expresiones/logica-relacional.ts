@@ -1,4 +1,5 @@
 import { ErrorSemantico } from "../Errores/error-semantico";
+import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Expresion } from "./expresion";
 import { TipoDato } from "./tipos/tipo-dato";
 import { TipoLogicaRelacional } from "./tipos/tipo-operacion-logica-relacional";
@@ -20,11 +21,11 @@ export class LogicaRelacional extends Expresion {
      * Retorna el valor real de la operación
      * @returns Valor
      */
-    getValor(): any {
-        const valIzq = this.exprIzq.getValor();
-        const valDer = this.expDer?.getValor(); // puede ser null cuando se tiene un  número negativo -> - EXPRESION
-        const tipoIz = this.exprIzq.getTipo();
-        const tipoDer = this.expDer?.getTipo();
+    getValor(tablaSimbolos: TablaSimbolos): any {
+        const valIzq = this.exprIzq.getValor(tablaSimbolos);
+        const valDer = this.expDer?.getValor(tablaSimbolos); // puede ser null cuando se tiene un  número negativo -> - EXPRESION
+        const tipoIz = this.exprIzq.getTipo(tablaSimbolos);
+        const tipoDer = this.expDer?.getTipo(tablaSimbolos);
         switch(this.operador) {
             case TipoLogicaRelacional.MAYOR: 
             if (this.evaluarTipos(tipoIz, tipoDer)) {
@@ -79,7 +80,7 @@ export class LogicaRelacional extends Expresion {
      * Una operacion lógica o relacional siempre retornará un booleano
      * @returns TipoDato
      */
-    getTipo(): TipoDato {
+    getTipo(tablaSimbolos: TablaSimbolos): TipoDato {
         return TipoDato.BOOLEANO;
     }
 

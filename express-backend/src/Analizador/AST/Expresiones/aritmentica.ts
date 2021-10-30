@@ -1,4 +1,5 @@
 import { ErrorSemantico } from "../Errores/error-semantico";
+import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Expresion } from "./expresion";
 import { TipoDato } from "./tipos/tipo-dato";
 import { TipoAritmetica } from "./tipos/tipo-operacion-aritmetica";
@@ -20,11 +21,11 @@ export class Aritmetica extends Expresion {
      * Retorna el valor real de la operación
      * @returns Valor
      */
-    getValor(): any {
-        const valIzq = this.exprIzq.getValor();
-        const valDer = this.expDer?.getValor(); // puede ser null cuando se tiene un  número negativo -> - EXPRESION
-        const tipoIz = this.exprIzq.getTipo();
-        const tipoDer = this.expDer?.getTipo();
+    getValor(tablaSimbolos: TablaSimbolos): any {
+        const valIzq = this.exprIzq.getValor(tablaSimbolos);
+        const valDer = this.expDer?.getValor(tablaSimbolos); // puede ser null cuando se tiene un  número negativo -> - EXPRESION
+        const tipoIz = this.exprIzq.getTipo(tablaSimbolos);
+        const tipoDer = this.expDer?.getTipo(tablaSimbolos);
         switch(this.operador) {
             case TipoAritmetica.DIVISION: 
             if (this.evaluarTipos(tipoIz, tipoDer)) {
@@ -74,9 +75,9 @@ export class Aritmetica extends Expresion {
      * Obtiene el tipo de dato de la operación
      * @returns TipoDato
      */
-    getTipo(): TipoDato {
-        const tipoIz = this.exprIzq.getTipo();
-        const tipoDer = this.expDer?.getTipo();
+    getTipo(tablaSimbolos: TablaSimbolos): TipoDato {
+        const tipoIz = this.exprIzq.getTipo(tablaSimbolos);
+        const tipoDer = this.expDer?.getTipo(tablaSimbolos);
         switch(this.operador) {
             case TipoAritmetica.SUMA: 
             if (tipoIz == TipoDato.ENTERO && tipoDer == TipoDato.ENTERO) {

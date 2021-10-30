@@ -1,1 +1,5 @@
-print(15);
+int @variable;
+int @variable2 ::= 15;
+for (int @cuenta ::= 0; @cuenta < 5; @cuenta++) {
+    print (@cuenta);
+}

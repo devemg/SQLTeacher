@@ -19,8 +19,8 @@ export class Asignacion extends Sentencia {
        if (sim) {
         // comprobación de tipos 
         //revisar casteos implicitos
-        if (this.canCast(sim.tipoDato)) {
-            sim.valor = this.expresion.getValor(); // asignando valor
+        if (this.canCast(sim.tipoDato, tsActual)) {
+            sim.valor = this.expresion.getValor(tsActual); // asignando valor
         } else {
             throw new ErrorSemantico(`El tipo de dato no se puede asignar a ${this.variable}. `,this.linea, this.columna);            
         }
@@ -35,8 +35,8 @@ export class Asignacion extends Sentencia {
      * @param tipo tipo de dato de simbolo
      * @returns si se puede asignar el valor
      */
-    canCast(tipo: TipoDato): boolean {
-        let exptipo = this.expresion.getTipo();
+    canCast(tipo: TipoDato, tabla: TablaSimbolos): boolean {
+        let exptipo = this.expresion.getTipo(tabla);
         if (exptipo === tipo) return true;
         if (tipo == TipoDato.ENTERO || tipo == TipoDato.DECIMAL) {
             return exptipo === TipoDato.ENTERO || exptipo === TipoDato.DECIMAL;

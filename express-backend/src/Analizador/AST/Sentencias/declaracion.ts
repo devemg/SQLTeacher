@@ -22,14 +22,14 @@ export class Declaracion extends Sentencia {
                 if (this.expresion) {
                     //comprobar tipos 
                     // se deben comprobar casteos implicitos
-                    if (this.canCast()) {
-                        let sim = new Simbolo(this.tipoDato, element,this.getValor(), tablaSimbolos.getAmbito(),this.linea, this.columna);
+                    if (this.canCast(tablaSimbolos)) {
+                        let sim = new Simbolo(this.tipoDato, element,this.getValor(tablaSimbolos), tablaSimbolos.getAmbito(),this.linea, this.columna);
                         tablaSimbolos.add(sim);
                     } else {
                         throw new ErrorSemantico(`Los tipos para la variable ${element} no coinciden. `,this.linea, this.columna);
                     }
                 } else {
-                    let sim = new Simbolo(this.tipoDato, element,this.getValor(), tablaSimbolos.getAmbito(),this.linea, this.columna);
+                    let sim = new Simbolo(this.tipoDato, element,this.getValor(tablaSimbolos), tablaSimbolos.getAmbito(),this.linea, this.columna);
                     tablaSimbolos.add(sim);
                 }
             } else {
@@ -43,8 +43,8 @@ export class Declaracion extends Sentencia {
      * @param tipo tipo de dato de simbolo
      * @returns si se puede asignar el valor
      */
-    canCast(): boolean {
-        let exptipo = this.expresion.getTipo();
+    canCast(tabla: TablaSimbolos): boolean {
+        let exptipo = this.expresion.getTipo(tabla);
         if (exptipo === this.tipoDato) return true;
         if (this.tipoDato == TipoDato.ENTERO || this.tipoDato == TipoDato.DECIMAL) {
             return exptipo === TipoDato.ENTERO || exptipo === TipoDato.DECIMAL;
@@ -60,9 +60,9 @@ export class Declaracion extends Sentencia {
      * Retorna el valor de la expresión o el valor por defecto si no existe expresión
      * @returns Valor
      */
-    getValor(): any {
+    getValor(tsActual: TablaSimbolos): any {
         if (this.expresion) {
-            return this.expresion.getValor();
+            return this.expresion.getValor(tsActual);
         } else {
 
             switch(this.tipoDato) {

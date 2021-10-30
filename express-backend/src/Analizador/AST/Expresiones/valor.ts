@@ -1,3 +1,4 @@
+import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Expresion } from "./expresion";
 import { TipoDato } from "./tipos/tipo-dato";
 
@@ -15,7 +16,7 @@ export class Valor extends Expresion {
      * Obtiene el valor almacenado
      * @returns valor
      */
-    getValor(): any {
+    getValor(tablaSimbolos: TablaSimbolos): any {
        if (this.tipo == TipoDato.ENTERO || this.tipo == TipoDato.DECIMAL) {
         return Number(this.valor);
        }
