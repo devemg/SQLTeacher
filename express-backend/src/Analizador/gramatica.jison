@@ -228,7 +228,7 @@ CONDICION : EXPRESION tk_menor EXPRESION
 | EXPRESION tk_mayor_igual EXPRESION 
     { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.MAYOR_IGUAL)}
 | EXPRESION tk_igual tk_igual EXPRESION 
-    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.IGUAL)}
+    { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$4,TipoLogicaRelacional.IGUAL)}
 | EXPRESION tk_diferente EXPRESION 
     { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.DIFERENTE)}
 | EXPRESION tk_and EXPRESION 

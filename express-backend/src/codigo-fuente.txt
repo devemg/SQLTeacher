@@ -20,12 +20,12 @@ do {
 
 //print ("IF -------------------------------------------->");
 
-if (@variable < 0) {
+if (@variable == 0) {
     print(0);
 } else {
     print(1);
 }
 
-if (@variable > 0) {
+if (@variable == 0) {
     print(0);
 }
