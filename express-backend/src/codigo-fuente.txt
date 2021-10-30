@@ -17,3 +17,15 @@ do {
     print (@variable2);
     @variable2 ::= @variable2 + 1;
 } while (@variable2<4);
+
+//print ("IF -------------------------------------------->");
+
+if (@variable < 0) {
+    print(0);
+} else {
+    print(1);
+}
+
+if (@variable > 0) {
+    print(0);
+}

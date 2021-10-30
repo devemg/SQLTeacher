@@ -17,6 +17,7 @@
     const { SWhile } = require('./AST/Sentencias/while');
     const { SDoWhile } = require('./AST/Sentencias/do-while');
     const { Incremento } = require('./AST/Sentencias/incremento');
+    const { IfElse } = require('./AST/Sentencias/if-else');
 
     const errores = [];
 %}
@@ -70,6 +71,8 @@
 "for"                                                           return 'pr_for';
 "while"                                                         return 'pr_while';
 "do"                                                            return 'pr_do';
+"if"                                                            return 'pr_if';
+"else"                                                            return 'pr_else';
 
 /* EXPRESIONES REGULARES */
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
@@ -154,6 +157,14 @@ INSTRUCCION_PC : DECLARACION {$$ = $1}
 
 INSTRUCCION_SPC : FOR {$$ = $1}
 |WHILE {$$ = $1}
+| IF {$$ = $1}
+;
+
+IF : pr_if tk_par1 CONDICION tk_par2 BLOQUE ELSE {$$ = new IfElse($3,$5,@1.first_line,@1.first_column,$6);}
+;
+
+ELSE : pr_else BLOQUE {$$ = $2; }
+|
 ;
 
 FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_asignacion EXPRESION tk_pycoma 
