@@ -45,7 +45,7 @@
 ")"                                                             return 'tk_par2';
 ";"                                                             return 'tk_pycoma';
 "?"                                                             return 'tk_interrogacion';
-"::="                                                           return 'tk_asignacion';
+"="                                                           return 'tk_asignacion';
 ":"                                                             return 'tk_dpuntos';
 ","                                                             return 'tk_coma';
 "<"                                                             return 'tk_menor';
@@ -167,6 +167,18 @@ IF : pr_if tk_par1 CONDICION tk_par2 BLOQUE ELSE {$$ = new IfElse($3,$5,@1.first
 ELSE : pr_else BLOQUE {$$ = $2; }
 |
 ;
+
+
+/*SWITCH : pr_switch tk_par1 EXPRESION tk_par2 CASES; 
+
+CASES: CASES CASE { $$ = $1.concat($2); } 
+| CASE { $$ = [$1]; } 
+;
+
+CASE: pr_case EXPRESION tk_dpuntos;
+
+DEFAULT: pr_default tk_dpuntos; */
+
 
 FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_asignacion EXPRESION tk_pycoma 
     CONDICION tk_pycoma

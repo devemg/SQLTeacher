@@ -1,21 +1,23 @@
 int @variable;
-int @variable2 ::= 0;
+int @variable2 = 0;
+print("La variable vale: " + ( @variable + 10));
+/*
 print ("FOR-------------------------------------------->");
-for (int @cuenta ::= 0; @cuenta < 5; @cuenta++) {
+for (int @cuenta = 0; @cuenta < 5; @cuenta++) {
     print (@cuenta);
 }
 
 print ("WHILE-------------------------------------------->");
 while (@variable2<5) {
     print (@variable2);
-    @variable2 ::= @variable2 + 1;
+    @variable2 = @variable2 + 1;
 }
 
 print ("DO WHILE-------------------------------------------->");
-@variable2 ::= 0;
+@variable2 = 0;
 do {
     print (@variable2);
-    @variable2 ::= @variable2 + 1;
+    @variable2 = @variable2 + 1;
 } while (@variable2<5);
 
 print ("IF -------------------------------------------->");
@@ -26,13 +28,13 @@ if (@variable == 0) {
     print("variable diferente de cero en else");
 }
 
-@variable ::= 1;
+@variable = 1;
 if (@variable == 0) {
     print("variabble igual a cero en if");
 } else {
     print("variable diferente de cero en else");
 }
-@Variable ::= 0;
+@Variable = 0;
 if (@variable == 0) {
     print("variable igual a cero en if sin else");
-}
+}*/
