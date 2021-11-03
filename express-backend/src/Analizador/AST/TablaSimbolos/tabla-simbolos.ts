@@ -48,7 +48,7 @@ export class TablaSimbolos {
      * @returns 
      */
      getSimbolo(variable: string): Simbolo | null {
-        const list = this.values.filter(value => value.nombre === variable);
+        const list = this.values.filter(value => value.nombre.toLowerCase() === variable.toLowerCase());
         if (list.length > 0) {
             // si existe 
             return list[0];

@@ -23,7 +23,7 @@ export class Declaracion extends Sentencia {
                     //comprobar tipos 
                     // se deben comprobar casteos implicitos
                     if (this.canCast(tablaSimbolos)) {
-                        let sim = new Simbolo(this.tipoDato, element,this.getValor(tablaSimbolos), tablaSimbolos.getAmbito(),this.linea, this.columna);
+                        let sim = new Simbolo(this.tipoDato, element.toLowerCase(),this.getValor(tablaSimbolos), tablaSimbolos.getAmbito(),this.linea, this.columna);
                         tablaSimbolos.add(sim);
                     } else {
                         throw new ErrorSemantico(`Los tipos para la variable ${element} no coinciden. `,this.linea, this.columna);

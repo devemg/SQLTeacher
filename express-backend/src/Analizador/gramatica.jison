@@ -75,10 +75,11 @@
 "else"                                                            return 'pr_else';
 
 /* EXPRESIONES REGULARES */
+\"[^\"]*\"				                                        { yytext = yytext.substr(1,yyleng-2); return 'val_cadena'; }
+\'[^\']*\'				                                        { yytext = yytext.substr(1,yyleng-2); return 'val_cadena'; }
 [0-9]+("."[0-9]+)?                                              return 'val_decimal';
 [0-9]+                                                          return 'val_entero';
 [a-zA-Z_]+[a-zA-Z_0-9]*\b                                       return 'val_variable';
-\"[^\"]*\"\b                                                      return 'val_cadena';
 <<EOF>>                                                         return 'EOF';
 
 .                           { console.log('error léxico'); errores.push(new ErrorLexico(yytext, yylloc.first_line, yylloc.first_column)); }

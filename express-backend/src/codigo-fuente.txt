@@ -1,31 +1,38 @@
 int @variable;
 int @variable2 ::= 0;
-//print ("FOR-------------------------------------------->");
+print ("FOR-------------------------------------------->");
 for (int @cuenta ::= 0; @cuenta < 5; @cuenta++) {
     print (@cuenta);
 }
 
-//print ("WHILE-------------------------------------------->");
-while (@variable2<4) {
+print ("WHILE-------------------------------------------->");
+while (@variable2<5) {
     print (@variable2);
     @variable2 ::= @variable2 + 1;
 }
 
-//print ("DO WHILE-------------------------------------------->");
+print ("DO WHILE-------------------------------------------->");
 @variable2 ::= 0;
 do {
     print (@variable2);
     @variable2 ::= @variable2 + 1;
-} while (@variable2<4);
+} while (@variable2<5);
 
-//print ("IF -------------------------------------------->");
+print ("IF -------------------------------------------->");
 
 if (@variable == 0) {
-    print(0);
+    print("variabble igual a cero en if");
 } else {
-    print(1);
+    print("variable diferente de cero en else");
 }
 
+@variable ::= 1;
 if (@variable == 0) {
-    print(0);
+    print("variabble igual a cero en if");
+} else {
+    print("variable diferente de cero en else");
+}
+@Variable ::= 0;
+if (@variable == 0) {
+    print("variable igual a cero en if sin else");
 }
