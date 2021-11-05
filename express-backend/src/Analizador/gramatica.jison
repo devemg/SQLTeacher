@@ -45,7 +45,6 @@
 ")"                                                             return 'tk_par2';
 ";"                                                             return 'tk_pycoma';
 "?"                                                             return 'tk_interrogacion';
-"="                                                           return 'tk_asignacion';
 ":"                                                             return 'tk_dpuntos';
 ","                                                             return 'tk_coma';
 "<"                                                             return 'tk_menor';
@@ -107,12 +106,12 @@
 
 INICIO : INSTRUCCIONES EOF {
     const ast = $1;
-     return {ast, errores} }
+     return { ast, errores}; }
 ;
 
 FUNCIONES : FUNCIONES FUNCION { $$ = $1.concat($2); } 
 | FUNCION {$$ = [$1] }
-| error { throw new ErrorSintactico(yytext, @1.first_line,@1.first_column); }
+| error { errores.push(new ErrorSintactico(yytext, @1.first_line,@1.first_column)); }
 ; 
 
 FUNCION : pr_function val_variable tk_par1 tk_par2 BLOQUE;
@@ -121,7 +120,7 @@ BLOQUE : tk_llave1 INSTRUCCIONES tk_llave2 {$$ = $2;};
 
 INSTRUCCIONES : INSTRUCCIONES INSTRUCCION { $$ = $1.concat($2); } 
 | INSTRUCCION {$$ = [$1] }
-| error { throw new ErrorSintactico(yytext, @1.first_line,@1.first_column); }
+//| error { errores.push(new ErrorSintactico(yytext, @1.first_line,@1.first_column)); }
 ; 
 
 INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1}
@@ -131,11 +130,11 @@ INSTRUCCION : INSTRUCCION_PC tk_pycoma {$$ = $1}
 INSTRUCCION_PC : DECLARACION {$$ = $1}
 | ASIGNACION  {$$ = $1}
 | PRINT {$$ = $1}
-|DOWHILE {$$ = $1}
+| DOWHILE {$$ = $1}
 ;
 
 INSTRUCCION_SPC : FOR {$$ = $1}
-|WHILE {$$ = $1}
+| WHILE {$$ = $1}
 | IF {$$ = $1}
 ;
 
@@ -158,7 +157,7 @@ CASE: pr_case EXPRESION tk_dpuntos;
 DEFAULT: pr_default tk_dpuntos; */
 
 
-FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_asignacion EXPRESION tk_pycoma 
+FOR: pr_for tk_par1 TIPO_DATO tk_arr val_variable tk_igual EXPRESION tk_pycoma 
     CONDICION tk_pycoma
     INCREMENTO tk_par2 BLOQUE {
     $$ = new For(new Declaracion($3, [$5], $7, @3.first_line,@3.first_column),$9, $11, $13, @1.first_line,@1.first_column);
@@ -170,11 +169,11 @@ DOWHILE : pr_do BLOQUE pr_while tk_par1 CONDICION tk_par2 {$$ = new SDoWhile($5,
 
 INCREMENTO: tk_arr val_variable tk_suma tk_suma { $$ = new Incremento($2,@1.first_line,@1.first_column); };
 
-DECLARACION : TIPO_DATO LISTA_ID tk_asignacion EXPRESION
+DECLARACION : TIPO_DATO LISTA_ID tk_igual EXPRESION
     {$$ = new Declaracion($1, $2, $4, @3.first_line,@3.first_column); }
 | TIPO_DATO LISTA_ID {$$ = new Declaracion($1, $2, null, @1.first_line,@1.first_column); };
 
-ASIGNACION : tk_arr val_variable tk_asignacion EXPRESION 
+ASIGNACION : tk_arr val_variable tk_igual EXPRESION 
     {$$ = new Asignacion($2, $4, @1.first_line,@1.first_column); }
 ;
 

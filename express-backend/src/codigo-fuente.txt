@@ -1,7 +1,7 @@
 int @variable;
 int @variable2 = 0;
 print("La variable vale: " + ( @variable + 10));
-/*
+
 print ("FOR-------------------------------------------->");
 for (int @cuenta = 0; @cuenta < 5; @cuenta++) {
     print (@cuenta);
@@ -24,7 +24,9 @@ print ("IF -------------------------------------------->");
 
 if (@variable == 0) {
     print("variabble igual a cero en if");
-} else {
+} 
+
+else {
     print("variable diferente de cero en else");
 }
 
@@ -37,4 +39,4 @@ if (@variable == 0) {
 @Variable = 0;
 if (@variable == 0) {
     print("variable igual a cero en if sin else");
-}*/
+}

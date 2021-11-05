@@ -15,7 +15,7 @@ export class Print extends Sentencia {
         // \t ->  
         // \n -> salto de linea 
         // ......   
-        return this.valor.getValor(tablaSimbolos);
+        return this.valor.getValor(tablaSimbolos) + "\n";
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

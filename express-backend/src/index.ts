@@ -26,7 +26,9 @@ fs.readFile('src/codigo-fuente.txt', (err: any, data:any) => {
                 errores: response.errores
             });
         } else {
-            console.log(response.errores);
+            response.errores.forEach((element: any) => {
+                console.log(element);
+            });
         }
      } catch (e) {
          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
