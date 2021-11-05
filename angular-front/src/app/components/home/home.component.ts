@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Tab } from 'src/app/models/tab.model';
+import { LanguageService } from 'src/app/services/language.service';
+import { EditorComponent } from '../editor/editor.component';
 
 @Component({
   selector: 'app-home',
@@ -7,13 +9,16 @@ import { Tab } from 'src/app/models/tab.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  isLoading = false;
+  @ViewChild(EditorComponent, {static: true}) editor: EditorComponent | undefined;
   tabs: Tab[] = [
     {
       editor: {},
       title: 'New 1'
     }
   ];
-  constructor() { }
+
+  constructor(private language: LanguageService) {}
 
   ngOnInit(): void {
   }
@@ -41,6 +46,23 @@ export class HomeComponent implements OnInit {
         editor: {},
         title: 'New 1'
       });
+    }
+  }
+
+  /**
+   * Run code 
+   */
+  run(): void {
+    this.isLoading = true;
+    const code = this.editor?.getCode();
+    if (code) {
+      this.language.sendToRun(code).then(res => {
+        console.log(res);
+      })
+      .catch(errors=> {
+        console.log(errors);
+      })
+      .finally(() => this.isLoading = false);
     }
   }
 

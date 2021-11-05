@@ -1,8 +1,18 @@
 <div class="container">
     <mat-toolbar color="primary">
         <span>CQL-Teacher</span>
+        <div class="options">
+          <button (click)="run()" mat-mini-fab color="accent">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn">
+            <mat-icon>account_tree</mat-icon>
+          </button>
+        </div>
       </mat-toolbar>
       <div class="tabs-container">
+        <app-editor></app-editor>
+        <!----
         <mat-tab-group class="tab-group">
             <mat-tab *ngFor="let tab of tabs; let index = index">
               <ng-template mat-tab-label>
@@ -13,7 +23,7 @@
                 </button>
                 </div>
               </ng-template>
-              <app-editor></app-editor>
+              
             </mat-tab>
             
             <mat-tab disabled class="action-add">
@@ -23,6 +33,11 @@
                   </button>
               </ng-template>
           </mat-tab>
-          </mat-tab-group>
+          </mat-tab-group> 
+
+          ----->
       </div>
+</div>
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner></mat-spinner>
 </div>

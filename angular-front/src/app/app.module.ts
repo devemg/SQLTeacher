@@ -9,6 +9,7 @@ import { EditorComponent } from './components/editor/editor.component';
 import { AngularMaterialModule } from './shared/angular-material/angular-material.module';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     AngularMaterialModule,
     FormsModule,
-    MonacoEditorModule.forRoot()
+    MonacoEditorModule.forRoot(),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
