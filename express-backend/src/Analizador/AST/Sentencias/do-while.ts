@@ -13,14 +13,16 @@ export class SDoWhile extends Sentencia {
         this.condicion = condicion;
     }
 
-    Ejecutar(tsActual: TablaSimbolos): void {
+    Ejecutar(tsActual: TablaSimbolos): string | undefined {
         const tswhile = new TablaSimbolos(tsActual.getAmbito()+'_do_while', tsActual);
         // declaracion 
         let contador = 0;
+        let output = "";
         while (true) {            
             // ejecución            
             this.listaSentencias.forEach(element => {
-                element.Ejecutar(tswhile);
+                const salida = element.Ejecutar(tswhile);
+                if (salida) output += salida;
             });
 
             // comprobacion de tipos
@@ -30,6 +32,7 @@ export class SDoWhile extends Sentencia {
             if (contador == 10000000000) break; // condicion para parar evitar ciclos infinitos
             contador++;
         }   
+        return output;
     }
 
     getCodigoAST() {

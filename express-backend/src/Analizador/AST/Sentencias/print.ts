@@ -11,11 +11,11 @@ export class Print extends Sentencia {
         this.valor = valor;
     }
 
-    Ejecutar(tablaSimbolos: TablaSimbolos) {
+    Ejecutar(tablaSimbolos: TablaSimbolos): string | undefined {
         // \t ->  
         // \n -> salto de linea 
         // ......   
-        console.log(this.valor.getValor(tablaSimbolos));
+        return this.valor.getValor(tablaSimbolos);
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

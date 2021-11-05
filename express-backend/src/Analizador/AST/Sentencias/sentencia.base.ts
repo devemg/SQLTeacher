@@ -9,7 +9,7 @@ export abstract class Sentencia {
         this.columna = columna;
     }
 
-    abstract Ejecutar(tsActual: TablaSimbolos, isBreak?: boolean, isContinue?: boolean): void;
+    abstract Ejecutar(tsActual: TablaSimbolos, isBreak?: boolean, isContinue?: boolean): string | undefined;
 
     abstract getCodigoAST(): { codigo: string, nombreNodo: string };
 

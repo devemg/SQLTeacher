@@ -13,20 +13,20 @@ fs.readFile('src/codigo-fuente.txt', (err: any, data:any) => {
     const ast = response.ast;
     try {
         if (ast) {
+            let output = '';
             const tsGlobal = new TablaSimbolos('global');
-            ast.forEach((sentencia: Sentencia) => sentencia.Ejecutar(tsGlobal));
- 
-             /*let codigoFinal = 'digraph G { \n principal[label="AST"];\n';
-             $1.forEach((sentencia) => {
- 
-                 const codigo = sentencia.getCodigoAST();
-                 codigoFinal = codigoFinal + `
-                 ${codigo.codigo}\n
-                 principal -> ${codigo.nombreNodo};\n`;
-             });
-             codigoFinal = codigoFinal + '}';*/
+            ast.forEach((sentencia: Sentencia) => {
+                const salida = sentencia.Ejecutar(tsGlobal);
+                if (salida) output+=salida;
+            });
+            const astCode = getAST(ast);
+            console.log({
+                output,
+                astCode: "",
+                errores: response.errores
+            });
         } else {
-             //errores.forEach((error) => console.log(error.getMessage()));
+            console.log(response.errores);
         }
      } catch (e) {
          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
@@ -34,3 +34,15 @@ fs.readFile('src/codigo-fuente.txt', (err: any, data:any) => {
          console.error(e);
      }
 });
+
+function getAST(sentencias: Sentencia[]) {
+    let codigoFinal = 'digraph G { \n principal[label="AST"];\n';
+    sentencias.forEach((sentencia) => {
+        const codigo = sentencia.getCodigoAST();
+        codigoFinal = codigoFinal + `
+            ${codigo.codigo}\n
+            principal -> ${codigo.nombreNodo};\n`;
+        });
+    codigoFinal = codigoFinal + '}';
+    return codigoFinal;
+}

@@ -14,7 +14,7 @@ export class Asignacion extends Sentencia {
         this.expresion = expresion;
     }
 
-    Ejecutar(tsActual: TablaSimbolos): void {
+    Ejecutar(tsActual: TablaSimbolos): string | undefined {
         let sim = tsActual.getSimbolo(this.variable);
        if (sim) {
         // comprobación de tipos 
@@ -28,6 +28,7 @@ export class Asignacion extends Sentencia {
     } else {
         throw new ErrorSemantico(`La variable "${this.variable}" no existe. `,this.linea, this.columna);
        }
+       return;
     }
 
     /**

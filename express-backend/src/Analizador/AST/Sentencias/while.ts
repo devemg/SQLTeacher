@@ -13,8 +13,9 @@ export class SWhile extends Sentencia {
         this.condicion = condicion;
     }
 
-    Ejecutar(tsActual: TablaSimbolos): void {
+    Ejecutar(tsActual: TablaSimbolos): string | undefined {
         const tswhile = new TablaSimbolos(tsActual.getAmbito()+'_while', tsActual);
+        let output = "";
         // declaracion 
         let contador = 0;
         while (true) {
@@ -26,10 +27,12 @@ export class SWhile extends Sentencia {
             
             // ejecución            
             this.listaSentencias.forEach(element => {
-                element.Ejecutar(tswhile);
+                const salida = element.Ejecutar(tswhile);
+                if (salida) output += salida;
             });
             contador++;
         }   
+        return output;
     }
 
     getCodigoAST() {

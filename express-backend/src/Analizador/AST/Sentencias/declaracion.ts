@@ -16,7 +16,7 @@ export class Declaracion extends Sentencia {
         this.expresion = expresion;
     }
 
-    Ejecutar(tablaSimbolos: TablaSimbolos): void {
+    Ejecutar(tablaSimbolos: TablaSimbolos): string | undefined {
         this.listaIds.forEach(element => {
             if (!tablaSimbolos.exists(element)) {
                 if (this.expresion) {
@@ -36,6 +36,7 @@ export class Declaracion extends Sentencia {
                 throw new ErrorSemantico(`La variable "${element}" ya existe. `,this.linea, this.columna);
             }
         });
+        return;
     }
 
     /**

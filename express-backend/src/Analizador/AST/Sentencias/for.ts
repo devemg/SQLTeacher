@@ -20,8 +20,9 @@ export class For extends Sentencia {
         this.incremento = incremento;
     }
 
-    Ejecutar(tsActual: TablaSimbolos): void {
+    Ejecutar(tsActual: TablaSimbolos): string | undefined {
         const tsFor = new TablaSimbolos(tsActual.getAmbito()+'_for', tsActual);
+        let output = "";
         // declaracion 
         this.declaracion.Ejecutar(tsFor);
         let contador = 0;
@@ -34,13 +35,15 @@ export class For extends Sentencia {
             
             // ejecución            
             this.listaSentencias.forEach(element => {
-                element.Ejecutar(tsFor);
+                const salida = element.Ejecutar(tsFor);
+                if (salida) output += salida;
             });
 
             // ejecutar incremento
             this.incremento.Ejecutar(tsFor);
             contador++;
-        }   
+        }
+        return output;
     }
 
     getCodigoAST() {

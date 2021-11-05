@@ -13,7 +13,7 @@ export class Switch extends Sentencia {
         this.default = def;
     }
 
-    Ejecutar(tsActual: TablaSimbolos):void {
+    Ejecutar(tsActual: TablaSimbolos): string | undefined {
         let isBreak = false;
         this.cases.forEach((sentenciaCase: Case) => {
             sentenciaCase.Ejecutar(tsActual, isBreak);
@@ -26,6 +26,7 @@ export class Switch extends Sentencia {
                 });
             }
         }
+        return;
     }
 
     getCodigoAST(): any {
@@ -44,8 +45,9 @@ export class Case extends Sentencia {
         this.sentencias = sentencias;
     }
 
-    Ejecutar(tsActual: TablaSimbolos, isBreak: boolean):void {
+    Ejecutar(tsActual: TablaSimbolos, isBreak: boolean): string | undefined {
         console.log("case ");
+        return;
     }
 
     getCodigoAST(): any {

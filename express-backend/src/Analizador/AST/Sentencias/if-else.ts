@@ -15,22 +15,26 @@ export class IfElse extends Sentencia {
         this.listaSentenciasFalse = listaSentenciasFalse;
     }
 
-    Ejecutar(tsActual: TablaSimbolos): void {
+    Ejecutar(tsActual: TablaSimbolos): string | undefined {
         const tsIf = new TablaSimbolos(tsActual.getAmbito()+'_if', tsActual);
+        let output = "";
         if (this.condicion.getValor(tsIf)) {
             //ejecutar
             this.listaSentenciasTrue.forEach(element => {
-                element.Ejecutar(tsIf);
+                const salida = element.Ejecutar(tsIf);
+                if (salida) output += salida;
             });
         } else {
             // si existe else
             if (this.listaSentenciasFalse) {
                 //ejecutar
                 this.listaSentenciasFalse.forEach(element => {
-                    element.Ejecutar(tsIf);
+                    const salida = element.Ejecutar(tsIf);
+                if (salida) output += salida;
                 });
             }
         }
+        return output;
     }
 
     getCodigoAST() {
