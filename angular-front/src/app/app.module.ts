@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { AngularMaterialModule } from './shared/angular-material/angular-material.module';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { AngularMaterialModule } from './shared/angular-material/angular-materia
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
+    FormsModule,
+    MonacoEditorModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
