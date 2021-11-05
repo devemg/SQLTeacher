@@ -4,9 +4,9 @@ import { TipoDato } from "../Expresiones/tipos/tipo-dato";
 export class TablaSimbolos {
     private ambito: string;
     private values: Array<Simbolo> = [];
-    private padre: TablaSimbolos | null;
+    private padre: TablaSimbolos | undefined;
 
-    constructor(ambito: string, tablaPadre: TablaSimbolos) {
+    constructor(ambito: string, tablaPadre?: TablaSimbolos) {
         this.ambito = ambito;
         this.padre = tablaPadre;
     }

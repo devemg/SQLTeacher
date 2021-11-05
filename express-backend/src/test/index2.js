@@ -1,10 +1,7 @@
-import { Sentencia } from "./Analizador/AST/Sentencias/sentencia.base";
-import { TablaSimbolos } from "./Analizador/AST/TablaSimbolos/tabla-simbolos";
-
-const gramatica = require('../dist/Analizador/gramatica');
+const gramatica = require('../../dist/Analizador/gramatica');
 var fs = require('fs');
 
-fs.readFile('src/codigo-fuente.txt', (err: any, data:any) => {
+fs.readFile('src/codigo-fuente.txt', (err, data) => {
     if (err) {
         throw err;
     } 
@@ -14,7 +11,7 @@ fs.readFile('src/codigo-fuente.txt', (err: any, data:any) => {
     try {
         if (ast) {
             const tsGlobal = new TablaSimbolos('global');
-            ast.forEach((sentencia: Sentencia) => sentencia.Ejecutar(tsGlobal));
+            ast.forEach((sentencia) => sentencia.Ejecutar(tsGlobal));
  
              /*let codigoFinal = 'digraph G { \n principal[label="AST"];\n';
              $1.forEach((sentencia) => {

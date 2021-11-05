@@ -106,30 +106,8 @@
 // Producciones
 
 INICIO : INSTRUCCIONES EOF {
-    try {
-       if ($1) {
-           const tsGlobal = new TablaSimbolos('global');
-            $1.forEach((sentencia) => sentencia.Ejecutar(tsGlobal));
-
-            /*let codigoFinal = 'digraph G { \n principal[label="AST"];\n';
-            $1.forEach((sentencia) => {
-
-                const codigo = sentencia.getCodigoAST();
-                codigoFinal = codigoFinal + `
-                ${codigo.codigo}\n
-                principal -> ${codigo.nombreNodo};\n`;
-            });
-            codigoFinal = codigoFinal + '}';*/
-       } else {
-            //errores.forEach((error) => console.log(error.getMessage()));
-       }
-    } catch (e) {
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        //console.log(e);
-        console.error(e);
-    }
-    
-}
+    const ast = $1;
+     return {ast, errores} }
 ;
 
 FUNCIONES : FUNCIONES FUNCION { $$ = $1.concat($2); } 

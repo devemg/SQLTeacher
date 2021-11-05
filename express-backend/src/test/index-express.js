@@ -1,4 +1,4 @@
-const gramatica = require('../dist/Analizador/gramatica');
+const gramatica = require('../../dist/Analizador/gramatica');
 const express = require('express')
 const app = express()
 var cors = require('cors')
