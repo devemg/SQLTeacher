@@ -1,0 +1,17 @@
+web:
+  build: ./express-backend
+  ports:
+   - "3000:3000"
+  links:
+   - backend
+backend:
+  image: backend
+
+angular:
+  build: ./angular-front
+  ports:
+   - "80:80"
+  links:
+   - frontend
+frontend:
+  image: angular-front

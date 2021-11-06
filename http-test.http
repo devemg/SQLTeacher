@@ -1,0 +1,6 @@
+POST http://localhost:3000/ejecutar HTTP/1.1
+content-type: application/json
+
+{
+    "code": "print('hola mundo');"
+}

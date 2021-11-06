@@ -1,14 +1,16 @@
 import { Sentencia } from "./Analizador/AST/Sentencias/sentencia.base";
 import { TablaSimbolos } from "./Analizador/AST/TablaSimbolos/tabla-simbolos";
-
+const express = require('express')
+const app = express()
+var cors = require('cors')
 const gramatica = require('../dist/Analizador/gramatica');
-var fs = require('fs');
 
-fs.readFile('src/codigo-fuente.txt', (err: any, data:any) => {
-    if (err) {
-        throw err;
-    } 
-    const text = data.toString();
+app.use(express.json()); //permite parsear a json
+app.use(cors()); //activamos cors
+
+app.post('/ejecutar', function (req: any, res: any) {
+    const text = req.body.code;
+    console.log(text);
     const response = gramatica.parse(text);
     const ast = response.ast;
     try {
@@ -19,22 +21,33 @@ fs.readFile('src/codigo-fuente.txt', (err: any, data:any) => {
                 const salida = sentencia.Ejecutar(tsGlobal);
                 if (salida) output+=salida;
             });
-            const astCode = getAST(ast);
-            console.log({
+            //const astCode = getAST(ast);
+            res.status(200).send({
                 output,
                 astCode: "",
                 errores: response.errores
             });
+            /*console.log({
+                output,
+                astCode: "",
+                errores: response.errores
+            });*/
         } else {
-            response.errores.forEach((element: any) => {
+            res.status(400).send({errores: response.errores});
+            /*response.errores.forEach((element: any) => {
                 console.log(element);
-            });
+            });*/
         }
      } catch (e) {
          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
          //console.log(e);
          console.error(e);
      }
+    //res.send('Todo Ok');
+})
+ 
+app.listen(3000, () => {
+    console.log('LISTEN ON PORT 3000');
 });
 
 function getAST(sentencias: Sentencia[]) {
