@@ -15,6 +15,7 @@ export class Print extends Sentencia {
         // \t ->  
         // \n -> salto de linea 
         // ......   
+        console.log(this.valor.getValor(tablaSimbolos));
         return this.valor.getValor(tablaSimbolos) + "\n";
     }
 
