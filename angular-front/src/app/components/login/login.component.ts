@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup | undefined;
+  get loginControls () { return this.loginForm?.controls }
   constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
@@ -21,7 +22,9 @@ export class LoginComponent implements OnInit {
 
   submit(): void {
     console.log(this.loginForm?.value);
-    this.router.navigate(['home']);
+    if (this.loginForm?.valid) {
+      this.router.navigate(['home']);
+    }
   }
 
 }

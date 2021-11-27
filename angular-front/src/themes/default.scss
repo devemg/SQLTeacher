@@ -1,17 +1,85 @@
-@use '@angular/material' as mat;
+@import '~@angular/material/theming';
+@include mat-core();
+/* MAIN THEME*/
+$md-sqltheme: (
+    50 : #fae9ea,
+    100 : #f3c7cb,
+    200 : #eba2a8,
+    300 : #e27d85,
+    400 : #dc616a,
+    500 : #d64550,
+    600 : #d13e49,
+    700 : #cc3640,
+    800 : #c62e37,
+    900 : #bc1f27,
+    A100 : #fff4f4,
+    A200 : #ffc1c4,
+    A400 : #ff8e93,
+    A700 : #ff747a,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+/* For use in src/lib/core/theming/_palette.scss */
+$md-sqlwarn: (
+    50 : #f0f0e3,
+    100 : #d9dab8,
+    200 : #bfc289,
+    300 : #a5aa5a,
+    400 : #929736,
+    500 : #7f8513,
+    600 : #777d11,
+    700 : #6c720e,
+    800 : #62680b,
+    900 : #4f5506,
+    A100 : #f4ff88,
+    A200 : #f0ff55,
+    A400 : #ebff22,
+    A700 : #e9ff09,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
 
-@include mat.core();
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$candy-app-primary: mat-palette($md-sqltheme);
+$candy-app-accent:  mat-palette($md-sqlwarn);
 
-$my-primary: mat.define-palette(mat.$indigo-palette, 500);
-$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+// The warn palette is optional (defaults to red).
+//$candy-app-warn:    mat-palette($md-sqlwarn);
 
-$my-theme: mat.define-light-theme((
- color: (
-   primary: $my-primary,
-   accent: $my-accent,
- )
-));
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 
-// Emit theme-dependent styles for common features used across multiple components.
-@include mat.core-theme($my-theme);
-@include mat.all-component-themes($my-theme);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);

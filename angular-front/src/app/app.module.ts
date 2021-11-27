@@ -13,13 +13,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { RouterModule } from '@angular/router';
+import { CredentialsMessageComponent } from './components/login/credentials-message/credentials-message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     EditorComponent,
-    LoginComponent
+    LoginComponent,
+    CredentialsMessageComponent
   ],
   imports: [
     BrowserModule,
