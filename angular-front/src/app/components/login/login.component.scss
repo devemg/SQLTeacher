@@ -17,5 +17,17 @@
 
 .login-container {
     background: variables.$light-color;
-    
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+mat-error {
+    padding-bottom: 1em;
+}
+
+.btn {
+    padding-top: 1em;
+    padding-bottom: 1em;
 }

@@ -8,9 +8,10 @@ import { HomeComponent } from './components/home/home.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { AngularMaterialModule } from './shared/angular-material/angular-material.module';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -25,10 +26,13 @@ import { LoginComponent } from './components/login/login.component';
     BrowserAnimationsModule,
     AngularMaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     MonacoEditorModule.forRoot(),
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

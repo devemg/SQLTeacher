@@ -1,7 +1,25 @@
 <div class="background">
     <div class="container">
         <div class="login-container">
-            
+            <h1>CQL-Teacher</h1>
+            <p>Learn and practice SQL with us!</p>
+            <form class="form-vertical-group" *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="submit()" >
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input required matInput placeholder="email" formControlName="email">
+                    <mat-icon matPrefix>face</mat-icon>
+                    <mat-error *ngIf="" >Email is Required</mat-error>
+                    <mat-error>Invalid email</mat-error>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input required matInput placeholder="Password" formControlName="password">
+                    <mat-icon matPrefix>vpn_key</mat-icon>
+                    <mat-error>Password is Required</mat-error>
+                    <mat-error>The password must be at least 4 characters long</mat-error>
+                  </mat-form-field>
+                  <button type="submit" mat-flat-button class="btn" color="primary">Log In</button>
+            </form>
         </div>
     </div>
 </div>
