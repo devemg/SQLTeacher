@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdvancedComponent } from './advanced/advanced.component';
-import { BegginerComponent } from './begginer/begginer.component';
+import { BeginnerComponent } from './beginner/beginner.component';
 import { IntermediateComponent } from './intermediate/intermediate.component';
 
 const routes: Routes = [
   {
     path:'beginner',
-    component: BegginerComponent
+    component: BeginnerComponent
   },
   {
     path: 'intermediate',

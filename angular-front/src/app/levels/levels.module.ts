@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { LevelsRoutingModule } from './levels-routing.module';
 import { IntermediateComponent } from './intermediate/intermediate.component';
-import { BegginerComponent } from './begginer/begginer.component';
+import { BeginnerComponent } from './beginner/beginner.component';
 import { AdvancedComponent } from './advanced/advanced.component';
 
 
 @NgModule({
   declarations: [
     IntermediateComponent,
-    BegginerComponent,
+    BeginnerComponent,
     AdvancedComponent
   ],
   imports: [
