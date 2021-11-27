@@ -13,6 +13,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'levels',
+    loadChildren: ()=>import('./levels/levels.module').then(m=>m.LevelsModule)
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full'
