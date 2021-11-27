@@ -21,10 +21,9 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.loginForm?.value);
     if (this.loginForm?.valid) {
-      this.router.navigate(['home']);
     }
+    this.router.navigate(['home']);
   }
 
 }
