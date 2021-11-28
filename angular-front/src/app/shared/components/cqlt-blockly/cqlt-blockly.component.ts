@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToolBoxBlockly } from './toolbox';
+
 declare var Blockly: any;
 @Component({
   selector: 'cqlt-blockly',
@@ -6,28 +8,25 @@ declare var Blockly: any;
   styleUrls: ['./cqlt-blockly.component.scss']
 })
 export class CqltBlocklyComponent implements OnInit {
-  config = `<xml id="toolbox" style="display: none">
-  <category name="Control" colour="120">
-    <block type="controls_if"></block>
-    <block type="controls_repeat_ext" disabled="true"></block>
-  </category>
-  <category name="Text" colour="230">
-    <block type="text"></block>
-    <block type="text_print"></block>
-  </category>
-  <category name="Custom" colour="360">
-    <block type="begin"></block>
-    <block type="move"></block>
-    <block type="end"></block>
-  </category>
-</xml>`;
-workspace: any;
+  private workspace: any;
   constructor() { }
 
   ngOnInit(): void {
     this.workspace = Blockly.inject('blocklyDiv', {
-      toolbox: document.getElementById('toolbox'),
-      scrollbars: false
+      toolbox: ToolBoxBlockly,
+      readOnly: false,
+      move: {
+        scrollbars: true,
+        drag: true,
+        wheel: true
+      },
+      zoom:{
+      controls: true,
+       wheel: true,
+       startScale: 1.0,
+       maxScale: 3,
+       minScale: 0.3,
+       scaleSpeed: 1.2}
     });
   }
 

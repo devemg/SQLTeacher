@@ -40,7 +40,9 @@
               "node_modules/blockly/blocks_compressed.js",
               "node_modules/blockly/javascript.js",
               "node_modules/blockly/javascript_compressed.js",
-              "node_modules/blockly/msg/en.js"
+              "node_modules/blockly/msg/en.js",
+              "src/assets/blockly/custom-blocks.js",
+              "src/assets/blockly/custom-code.js"
             ]
           },
           "configurations": {
