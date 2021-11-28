@@ -5,6 +5,7 @@ import { LevelsRoutingModule } from './levels-routing.module';
 import { IntermediateComponent } from './intermediate/intermediate.component';
 import { BeginnerComponent } from './beginner/beginner.component';
 import { AdvancedComponent } from './advanced/advanced.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AdvancedComponent } from './advanced/advanced.component';
   ],
   imports: [
     CommonModule,
-    LevelsRoutingModule
+    LevelsRoutingModule,
+    SharedModule
   ]
 })
 export class LevelsModule { }

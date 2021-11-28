@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./beginner.component.scss']
 })
 export class BeginnerComponent implements OnInit {
+  
 
   constructor() { }
 
