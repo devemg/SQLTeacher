@@ -1,1 +1,37 @@
-<p>advanced works!</p>
+<div class="container">
+    <div class="header">
+        <button class="tree-btn" color="primary"mat-icon-button aria-label="toggle-tree">
+            <mat-icon>account_tree</mat-icon>
+          </button>
+        <div>
+            <button color="primary"mat-icon-button aria-label="execute">
+                <mat-icon>play_arrow</mat-icon>
+              </button>
+              <button color="accent" mat-icon-button aria-label="export">
+                <mat-icon>downloading</mat-icon>
+              </button>
+              <button color="warn" mat-icon-button aria-label="fullscreen">
+                  <mat-icon>fullscreen</mat-icon>
+              </button>
+        </div>
+    </div>
+      <div class="workspace-container">
+        <div class="workspace">
+          <div class="workspace-code">
+            <div class="code-area">
+                <monaco-editor [code]="sourceCode" ></monaco-editor>
+            </div>
+          </div>
+          <div class="response">
+            <mat-tab-group mat-align-tabs="start">
+              <mat-tab label="Console">
+                Content
+              </mat-tab>
+              <mat-tab label="Second">Content 2</mat-tab>
+              <mat-tab label="Third">Content 3</mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+
+  </div>

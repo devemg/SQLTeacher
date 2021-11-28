@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./advanced.component.scss']
 })
 export class AdvancedComponent implements OnInit {
-
+  sourceCode: string = '';
   constructor() { }
 
   ngOnInit(): void {

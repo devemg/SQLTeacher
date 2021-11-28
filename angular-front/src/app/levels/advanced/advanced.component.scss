@@ -1,0 +1,80 @@
+@use '../../../themes/variables';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background: gray;
+    width: 100%;
+    height: 91.5%;
+
+    .header {
+        grid-column: 1 / span 3;
+        height: 50px;
+        width: 100%;
+        display: inline-flex;
+        justify-content: space-between;
+        background: #FFF;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+
+        button {
+            margin-right: 1em;
+        }
+
+        .tree-btn {
+            color: variables.$dark-background;
+        }
+    }
+} 
+.workspace-container {
+    width: 100%;
+    height: 100%;
+
+    .workspace {
+        height: 100%;
+        width: 100%;
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+
+        .workspace-code {
+            height: 100%;
+            width: 100%;
+            flex: 3;
+            background: gray;
+            display: inline-flex;
+
+            .code-area {
+                height: 100%;
+                width: 100%;
+                background: green;
+            }
+        }
+
+        .response {
+            background: #FFF;
+            height: 100%;
+            width: 100%;
+            flex: 1;
+        }
+      }
+      
+      .tree-sidenav {
+        background: variables.$dark-background;
+        color: #FFF;
+        padding: 0.5em;
+      }
+}
+
+.mat-tab-body-content {
+    overflow-y: hidden;
+    
+}
+
+.console {
+    background: black;
+    color: white;
+    width: 100%;
+    height: 100%;
+    resize: none;
+}
