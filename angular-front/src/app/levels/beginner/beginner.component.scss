@@ -25,37 +25,36 @@
             color: variables.$dark-background;
         }
     }
-    
+} 
+.workspace-container {
+    width: 100%;
+    height: 100%;
+
     .workspace {
-        display: flex;
-        width: 100%;
         height: 100%;
+        width: 100%;
+        flex: 3;
+        display: flex;
+        flex-direction: column;
 
-        .tree-area {
-            height: 100%;
-            width: 100%;
-            flex: 1;
-            background: variables.$dark-background;
-        }
-
-        .workspace_th {
+        .blockly-area {
             height: 100%;
             width: 100%;
             flex: 3;
-            display: flex;
-            flex-direction: column;
-
-            .blockly-area {
-                height: 100%;
-                width: 100%;
-                flex: 3;
-            }
-
-            .response {
-                height: 100%;
-                width: 100%;
-                flex: 1;
-            }
+            background: gray;
         }
-    }
+
+        .response {
+            height: 100%;
+            width: 100%;
+            flex: 1;
+            background: black;
+        }
+      }
+      
+      .tree-sidenav {
+        background: variables.$dark-background;
+        color: #FFF;
+        padding: 0.5em;
+      }
 }

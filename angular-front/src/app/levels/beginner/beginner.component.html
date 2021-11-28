@@ -1,6 +1,6 @@
 <div class="container">
     <div class="header">
-        <button class="tree-btn" color="primary"mat-icon-button aria-label="execute">
+        <button class="tree-btn" color="primary"mat-icon-button aria-label="toggle-tree" (click)="drawer.toggle()">
             <mat-icon>account_tree</mat-icon>
           </button>
         <div>
@@ -15,11 +15,27 @@
               </button>
         </div>
     </div>
-    <div class="workspace">
+      <mat-drawer-container class="workspace-container" autosize>
+        <mat-drawer #drawer class="tree-sidenav" mode="side">
+          <p>Auto-resizing sidenav</p>
+        </mat-drawer>
+      
+        <div class="workspace">
+          <div class="blockly-area">
+
+          </div>
+          <div class="response">
+            
+          </div>
+        </div>
+      
+      </mat-drawer-container>
+      
+        <!----
         <div class="tree-area"> </div>
         <div class="workspace_th">
             <div class="blockly-area"> </div>
             <div class="response"> </div>
         </div>
-    </div>
+      -->
   </div>
