@@ -5,8 +5,9 @@
     flex-direction: column;
     background: gray;
     width: 100%;
+    overflow: hidden;
     height: 91.5%;
-
+    
     .header {
         grid-column: 1 / span 3;
         height: 50px;
