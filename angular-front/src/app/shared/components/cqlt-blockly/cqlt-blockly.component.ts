@@ -31,7 +31,9 @@ export class CqltBlocklyComponent implements OnInit {
     });
     this.workspace.addChangeListener(()=> {
       var code = Blockly.JavaScript.workspaceToCode(this.workspace);
-      this.change.emit(code);
+      if (code && code != '') {
+        this.change.emit(code);
+      }
     })
   }
 

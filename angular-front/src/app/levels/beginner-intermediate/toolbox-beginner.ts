@@ -1,5 +1,5 @@
 
-export const ToolBoxBlockly=`<xml id="toolbox" style="display: none">
+export const ToolBoxBeginnerBlockly=`<xml id="toolbox" style="display: none">
       <category name="Sentencias" colour="330">
         <block type="insert_normal"></block>
         <block type="use"> </block>

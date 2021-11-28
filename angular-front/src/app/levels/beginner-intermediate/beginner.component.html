@@ -19,7 +19,7 @@
         <div class="workspace">
           <div class="workspace-code">
             <div class="blockly-area">
-              <cqlt-blockly [toolbox]="ToolBoxBlockly" (change)="blocklyChanges($event)" ></cqlt-blockly>
+              <cqlt-blockly [toolbox]="toolBoxBlockly" (change)="blocklyChanges($event)" ></cqlt-blockly>
             </div>
             <div *ngIf="!isBeginner" class="code-area">
               <monaco-editor [code]="sourceCode" ></monaco-editor>
