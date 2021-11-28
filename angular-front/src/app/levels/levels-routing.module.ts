@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdvancedComponent } from './advanced/advanced.component';
-import { BeginnerComponent } from './beginner/beginner.component';
-import { IntermediateComponent } from './intermediate/intermediate.component';
+import { BeginnerComponent } from './beginner-intermediate/beginner.component';
 
 const routes: Routes = [
   {
