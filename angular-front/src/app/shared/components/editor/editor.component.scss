@@ -7,3 +7,7 @@
     width: 100%;
     height: 100%;
 }
+
+::ng-deep .monaco-editor {
+    height: 100% !important;
+}
