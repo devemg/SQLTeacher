@@ -12,11 +12,17 @@
         height: 50px;
         width: 100%;
         display: inline-flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         background: #FFF;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
 
         button {
             margin-right: 1em;
+        }
+
+        .tree-btn {
+            color: variables.$dark-background;
         }
     }
     
@@ -29,6 +35,7 @@
             height: 100%;
             width: 100%;
             flex: 1;
+            background: variables.$dark-background;
         }
 
         .workspace_th {
