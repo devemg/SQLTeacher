@@ -6,17 +6,11 @@ import { UserType } from '../models/user-type';
   providedIn: 'root'
 })
 export class SessionService {
-  private userType: UserType = UserType.NULL;
   private userTypeBehaviour: BehaviorSubject<UserType> = new BehaviorSubject<UserType>(UserType.NULL);
   constructor() { }
 
   setUserType(type: UserType): void {
-    this.userType = type;
     this.userTypeBehaviour.next(type);
-  }
-
-  getUserType(): UserType {
-    return this.userType;
   }
 
   getUserTypeObservable(): Observable<UserType> {

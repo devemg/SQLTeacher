@@ -5,20 +5,17 @@ import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {
-    path:'home',
-    component: HomeComponent
-  },
-  {
     path:'login',
     component: LoginComponent
   },
   {
-    path: 'levels',
+    path: '',
+    component: HomeComponent, 
     loadChildren: ()=>import('./levels/levels.module').then(m=>m.LevelsModule)
   },
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   }
 ];

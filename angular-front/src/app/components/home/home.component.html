@@ -1,16 +1,19 @@
-<div class="container">
-      <div class="options">
-        <div class="card bg-blue clickable" (click)="selectUserType(userType.BEGINNER)" routerLink="/levels/beginner">
-          <img src ="../../../assets/images/puzzle-1.png"/>
-          <p>Beginner</p>
-        </div>
-        <div class="card bg-green clickable" (click)="selectUserType(userType.INTERMEDIATE)" routerLink="/levels/intermediate">
-          <img src="../../../assets/images/puzzle-2.png" alt="" />
-          <p>Intermediate</p> 
-        </div>
-        <div class="card bg-pink clickable" (click)="selectUserType(userType.ADVANCED)" routerLink="/levels/advanced">
-          <img src="../../../assets/images/dev-1.png"/>
-          <p>Advanced</p>
-        </div>
-      </div>
-</div>
+<mat-toolbar color="primary" class="{{background}}">
+  <div class="left-side">
+    <h1>CQL-Teacher</h1>
+    <ul>
+      <li routerLink="">Levels</li>
+      <li>Databases</li>
+    </ul>
+  </div>
+  <div class="right-side">
+    <button mat-icon-button>
+      <mat-icon>face</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>door_front</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

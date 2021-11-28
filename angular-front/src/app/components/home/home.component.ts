@@ -10,14 +10,25 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  
-  get userType () { return UserType }
-  constructor(private sessionService: SessionService) {}
-
-  ngOnInit(): void {
+  background: string = '';
+  constructor(private sessionService: SessionService) {
+    this.sessionService.getUserTypeObservable().subscribe((type: UserType) => {
+      switch (type) {
+        case UserType.INTERMEDIATE:
+          this.background = 'bg-green';
+          break;
+        case UserType.BEGINNER:
+          this.background = 'bg-blue';
+          break;
+        case UserType.ADVANCED:
+        case UserType.NULL:
+          this.background = 'bg-pink';
+          break;
+      }
+    });
   }
 
-  selectUserType(type: UserType): void {
-    this.sessionService.setUserType(type);
+  ngOnInit(): void {
+    
   }
 }

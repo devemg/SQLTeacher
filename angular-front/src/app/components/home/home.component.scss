@@ -1,93 +1,47 @@
 @use '../../../themes/variables';
 
-.container {
-    width: 100%;
-    //background: variables.$dark-background;
-    background: url(../../../assets/images/brickwall.png);
-    height: 91.5%;
+.mat-toolbar {
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    justify-content: space-between;
 
-.card {
-    background: variables.$light-color;
-    background: #FFF;
-    
-    img {
-        width: 15vw;
+    .left-side {
+        display: inline-flex;
+        height: 100%;
+        align-items: center;
     }
 
-    p {
-        text-align: center;
-        margin: 0;
-        font-family: 'Baloo 2', cursive;
-        padding-top: 0.5em;
-        font-size: 20px;
-    }
-}
+    ul {
+        display: inline-flex;
+        list-style: none;
+        height: 100%;
+        align-items: center;
 
-.card:hover {
-    transform: translateY(-35px);
-    transition: all 6ms;
+        li {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            padding-right: 1em;
+            font-weight: normal;
+            font-size: 16px;
+            color: #FFF;
+        }
+
+        li:hover {
+            cursor: pointer;
+            transform: translateY(-10px);
+            transition: all 8ms;
+        }
+    }
 }
 
 .bg-pink {
-    background: #FFEEF2;
-    border: 5px solid variables.$dark-primary;
+    background: variables.$dark-primary;
 }
 
 .bg-green {
-    background: #EEF4D4;
-    border: 5px solid variables.$dark-green;
+    background: variables.$dark-green;
 }
 
 .bg-blue {
-    background: #9AE5E6;
-    border: 5px solid variables.$dark-blue;
-}   
-
-.options {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding-top: 2em;
-}
-
-.container-title {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.options {
-    button {
-        margin-right: 5px;
-    }
-}
-
-.tabs-container {
-    overflow: hidden;
-}
-
-
-h1 {
-    font-weight: bold;
-    color: #FFF;
-    font-family: 'Baloo 2', cursive;
-}
-
-.loading-container {
-    background-color: rgba(0, 0, 0, 0.795);
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    background: variables.$dark-blue;
+} 

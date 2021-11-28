@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   submit(): void {
     if (this.loginForm?.valid) {
     }
-    this.router.navigate(['home']);
+    this.router.navigate(['']);
   }
 
 }

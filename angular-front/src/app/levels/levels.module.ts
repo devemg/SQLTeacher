@@ -6,12 +6,14 @@ import { BeginnerComponent } from './beginner-intermediate/beginner.component';
 import { AdvancedComponent } from './advanced/advanced.component';
 import { SharedModule } from '../shared/shared.module';
 import { AngularMaterialModule } from '../shared/angular-material/angular-material.module';
+import { LevelsHomeComponent } from './levels-home/levels-home.component';
 
 
 @NgModule({
   declarations: [
     BeginnerComponent,
-    AdvancedComponent
+    AdvancedComponent,
+    LevelsHomeComponent
   ],
   imports: [
     CommonModule,

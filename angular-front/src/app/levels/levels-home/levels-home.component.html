@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="options">
+      <div class="card bg-blue clickable" (click)="selectUserType(userType.BEGINNER)" routerLink="beginner">
+        <img src ="../../../assets/images/puzzle-1.png"/>
+        <p>Beginner</p>
+      </div>
+      <div class="card bg-green clickable" (click)="selectUserType(userType.INTERMEDIATE)" routerLink="intermediate">
+        <img src="../../../assets/images/puzzle-2.png" alt="" />
+        <p>Intermediate</p> 
+      </div>
+      <div class="card bg-pink clickable" (click)="selectUserType(userType.ADVANCED)" routerLink="advanced">
+        <img src="../../../assets/images/dev-1.png"/>
+        <p>Advanced</p>
+      </div>
+    </div>
+</div>
