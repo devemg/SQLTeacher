@@ -1,3 +1,5 @@
+@use '../themes/variables';
+
 .mat-toolbar {
     display: flex;
     justify-content: space-between;
@@ -27,3 +29,15 @@
         }
     }
 }
+
+.bg-pink {
+    background: variables.$dark-primary;
+}
+
+.bg-green {
+    background: variables.$dark-green;
+}
+
+.bg-blue {
+    background: variables.$dark-blue;
+} 

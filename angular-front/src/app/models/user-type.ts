@@ -1,0 +1,3 @@
+export enum UserType {
+    BEGINNER, INTERMEDIATE, ADVANCED, NULL
+}

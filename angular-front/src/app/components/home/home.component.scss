@@ -2,11 +2,50 @@
 
 .container {
     width: 100%;
+    //background: variables.$dark-background;
+    background: url(../../../assets/images/brickwall.png);
+    height: 91.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {
     background: variables.$light-color;
+    background: #FFF;
+    
+    img {
+        width: 15vw;
+    }
+
+    p {
+        text-align: center;
+        margin: 0;
+        font-family: 'Baloo 2', cursive;
+        padding-top: 0.5em;
+        font-size: 20px;
+    }
 }
+
+.card:hover {
+    transform: translateY(-35px);
+    transition: all 6ms;
+}
+
+.bg-pink {
+    background: #FFEEF2;
+    border: 5px solid variables.$dark-primary;
+}
+
+.bg-green {
+    background: #EEF4D4;
+    border: 5px solid variables.$dark-green;
+}
+
+.bg-blue {
+    background: #9AE5E6;
+    border: 5px solid variables.$dark-blue;
+}   
 
 .options {
     width: 100%;
