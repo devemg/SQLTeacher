@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ToolBoxBlockly } from './toolbox';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 declare var Blockly: any;
 @Component({
@@ -9,11 +8,13 @@ declare var Blockly: any;
 })
 export class CqltBlocklyComponent implements OnInit {
   private workspace: any;
+  @Output() change: EventEmitter<string> = new EventEmitter();
+  @Input() toolbox: string | undefined;
   constructor() { }
 
   ngOnInit(): void {
     this.workspace = Blockly.inject('blocklyDiv', {
-      toolbox: ToolBoxBlockly,
+      toolbox: this.toolbox ? this.toolbox : '',
       readOnly: false,
       move: {
         scrollbars: true,
@@ -28,6 +29,10 @@ export class CqltBlocklyComponent implements OnInit {
        minScale: 0.3,
        scaleSpeed: 1.2}
     });
+    this.workspace.addChangeListener(()=> {
+      var code = Blockly.JavaScript.workspaceToCode(this.workspace);
+      this.change.emit(code);
+    })
   }
 
 }
