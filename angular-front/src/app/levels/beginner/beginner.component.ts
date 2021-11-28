@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-beginner',
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BeginnerComponent implements OnInit {
   
+  isBeginner = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+    this.isBeginner = this.router.url.includes('beginner');
   }
 
 }

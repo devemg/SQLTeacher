@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'intermediate',
-    component: IntermediateComponent,
+    component: BeginnerComponent,
   },
   {
     path: 'advanced',
