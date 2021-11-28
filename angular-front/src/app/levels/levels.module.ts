@@ -6,6 +6,7 @@ import { IntermediateComponent } from './intermediate/intermediate.component';
 import { BeginnerComponent } from './beginner/beginner.component';
 import { AdvancedComponent } from './advanced/advanced.component';
 import { SharedModule } from '../shared/shared.module';
+import { AngularMaterialModule } from '../shared/angular-material/angular-material.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     LevelsRoutingModule,
-    SharedModule
+    SharedModule,
+    AngularMaterialModule
   ]
 })
 export class LevelsModule { }
