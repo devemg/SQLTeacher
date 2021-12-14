@@ -18,9 +18,15 @@
     const { SDoWhile } = require('./AST/Sentencias/do-while');
     const { Incremento } = require('./AST/Sentencias/incremento');
     const { IfElse } = require('./AST/Sentencias/if-else');
+    
     const { CrearDB } = require('./AST/Database/crear-db');
     const { EliminarDB } = require('./AST/Database/eliminar-db');
     const { UsarDB } = require('./AST/Database/usar-db');
+    
+    const { CrearTabla, ColumnaCrearTabla } = require('./AST/Database/crear-tabla');
+    const { ModificarTabla } = require('./AST/Database/modificar-tabla');
+    const { TruncarTabla } = require('./AST/Database/truncar-tabla');
+    const { EliminarTabla } = require('./AST/Database/eliminar-tabla');
 
     const errores = [];
 %}
@@ -60,7 +66,6 @@
 "||"                                                            return 'tk_or';
 "&&"                                                            return 'tk_and';
 "@"                                                             return 'tk_arr';
-","                                                             return 'pr_coma';
 /* PALABRAS RESERVADAS */
 "null"                                                          return 'pr_null';
 "int"                                                           return 'pr_int';
@@ -164,34 +169,50 @@ USAR_DB: pr_use val_variable { $$ = new UsarDB($2, @1.first_line, @1.first_colum
 ELIMINAR_DB: pr_drop pr_database val_variable { $$ = new EliminarDB($3, @1.first_line, @1.first_column); }
 ;
 
-CREAR_TABLA: pr_create pr_table val_variable tk_par1 LISTACAMPOSTABLA tk_par2
-| pr_crear pr_tabla pr_if pr_not pr_exists val_variable tk_par1 LISTACAMPOSTABLA tk_par2;
-
-LISTACAMPOSTABLA: CAMPOTABLA pr_coma LISTACAMPOSTABLA
-|CAMPOTABLA;
-
-CAMPOTABLA: val_variable TIPO_DATO_DB pr_primary pr_key
-| val_variable TIPO_DATO_DB
-| pr_primary pr_key tk_par1 LLAVEPRIMARIA tk_par2
+CREAR_TABLA: pr_create pr_table val_variable tk_par1 LISTACAMPOSTABLA tk_par2 {
+    $$ = new CrearTabla($3, false, $5, @1.first_line, @1.first_column);
+}
+| pr_crear pr_tabla pr_if pr_not pr_exists val_variable tk_par1 LISTACAMPOSTABLA tk_par2  {
+    $$ = new CrearTabla($6, true, $8, @1.first_line, @1.first_column);
+}
 ;
 
-TIPO_DATO_DB : TIPO_DATO | pr_counter;
+LISTACAMPOSTABLA: CAMPOTABLA tk_coma LISTACAMPOSTABLA { $$ = $3.concat($1); }
+|CAMPOTABLA { $$ = [$1]; };
 
-LLAVEPRIMARIA: LLAVEPRIMARIA val_variable
-| val_variable;
-
-
-ALTERAR_TABLA: pr_alter pr_table val_variable pr_add  LISTACAMPOSTABLA
-| pr_alter pr_table val_variable pr_drop LISTANOMBRESPURA; 
-
-LISTANOMBRESPURA: val_variable LISTANOMBRESPURA
-| val_variable
+CAMPOTABLA: val_variable TIPO_DATO_DB pr_primary pr_key { $$ = new ColumnaCrearTabla($1, $2, true, null, @1.first_line, @1.first_column); }
+| val_variable TIPO_DATO_DB { $$ = new ColumnaCrearTabla($1, $2, false, null, @1.first_line, @1.first_column); }
+| pr_primary pr_key tk_par1 LISTANOMBRESPURA tk_par2 { $$ = new ColumnaCrearTabla('', TipoDato.COUNTER, true, $4, @1.first_line, @1.first_column); }
 ;
 
-ELIMINAR_TABLA: pr_drop pr_table val_variable 
-| pr_drop pr_table pr_if pr_exists val_variable;
+TIPO_DATO_DB : TIPO_DATO {$$ = $1; } 
+| pr_counter { $$ = TipoDato.COUNTER }
+;
 
-TRUNCAR_TABLA: pr_truncate pr_table val_variable;
+LISTANOMBRESPURA: val_variable tk_coma LISTANOMBRESPURA { $$ = $3.concat($1); }
+| val_variable { $$ = [$1]; };
+
+
+ALTERAR_TABLA: pr_alter pr_table val_variable pr_add  LISTACAMPOSTABLA {
+    $$ = new ModificarTabla($3, $5, null,@1.first_line, @1.first_column);
+}
+| pr_alter pr_table val_variable pr_drop LISTANOMBRESPURA {
+    $$ = new ModificarTabla($3, null, $5, @1.first_line, @1.first_column);
+}
+; 
+
+ELIMINAR_TABLA: pr_drop pr_table val_variable {
+    $$ = new EliminarTabla($3, false, @1.first_line, @1.first_column);
+}
+| pr_drop pr_table pr_if pr_exists val_variable {
+    $$ = new EliminarTabla($5, true, @1.first_line, @1.first_column);
+}
+;
+
+TRUNCAR_TABLA: pr_truncate pr_table val_variable {
+    $$ = new TruncarTabla($3, @1.first_line, @1.first_column);
+}
+;
 
 /***** SENTENCIAS FCL ************************************************************************************************/
 

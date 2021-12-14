@@ -22,3 +22,7 @@ contenido string,
 publicado_por string,
 PRIMARY KEY (usuario_id, mes_publicado, hora_publicado)
 );
+
+DROP TABLE IF EXISTS usuarios;
+
+truncate table usuarios;
