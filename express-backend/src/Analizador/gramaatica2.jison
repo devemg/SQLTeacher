@@ -98,28 +98,7 @@ ATRIBUTO = val_variable TIPODATO;
 
 			SENTENCIASDML.Rule = MakePlusRule(SENTENCIASDML, SENTENCIADML);
 
-			SENTENCIADML.Rule = INSERTAR
-				| ACTUALIZAR
-				| BORRAR
-				| SELECCIONAR + puntoycoma
-				| BATCH;
-
-			SENTENCIADML.ErrorRule=SyntaxError +puntoycoma;
-
-			//cambiar si se puede insertar valores en objeto desde aca
-
-			INSERTAR.Rule =pr_insertar+pr_into+nombre+pr_valores +par1 + LISTAEXPRESIONES+par2+puntoycoma
-				|pr_insertar+pr_into+nombre+par1+LISTANOMBRESPURA+par2+pr_valores+par1+LISTAEXPRESIONES+par2+puntoycoma; 
-			//validar cantidad de columnas y expresiones
-
-
-			ACTUALIZAR.Rule = pr_actualizar + nombre + pr_set + LISTA_ASIGNACIONES + puntoycoma
-				| pr_actualizar + nombre + pr_set + LISTA_ASIGNACIONES + PROPIEDADDONDE + puntoycoma;
-
-			LISTA_ASIGNACIONES.Rule = MakePlusRule(LISTA_ASIGNACIONES,coma,ASIGNACIONAC);
-
-			ASIGNACIONAC.Rule = ACCESO + igual + EXPRESION;
-
+			
 			//cambiar listas si se puede eliminar campos de objetos desde aca
 			//
 			BORRAR.Rule = pr_borrar + pr_from + nombre + puntoycoma
@@ -136,10 +115,6 @@ ATRIBUTO = val_variable TIPODATO;
 				| pr_ordenar + pr_ordPor+PROPIEDADORDENAR
 				| PROPIEDADLIMIT;
 
-			PROPIEDADDONDE.Rule = pr_donde + EXPRESION
-				| pr_donde +ACCESO
-				| pr_donde + EXPRESION + pr_in + EXPRESION
-				| pr_donde + EXPRESION + pr_in + par1 + LISTAEXPRESIONES + par2;
 
 			PROPIEDADORDENAR.Rule = MakePlusRule(PROPIEDADORDENAR,coma,PROPORDER);
 

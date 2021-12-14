@@ -35,6 +35,11 @@
     const { OtorgarPermisos } = require('./AST/Database/otorgar-permisos');
     const { RevocarPermisos } = require('./AST/Database/revocar-permisos');
 
+    const { InsertarRegistros } = require('./AST/Database/insertar-registros');
+    const { ActualizarRegistros, AsignacionActualizar } = require('./AST/Database/actualizar-registros');
+    const { ClausulaCondicion } = require('./AST/Database/clausula-condicion');
+    const { EliminarRegistros } = require('./AST/Database/eliminar-registros');
+    const { SeleccionarRegistros } = require('./AST/Database/seleccionar-registros');
 
     const errores = [];
 %}
@@ -112,6 +117,14 @@
 "on"                                                            return 'pr_on';
 "grant"                                                         return 'pr_grant';
 "revoke"                                                        return 'pr_revoke';
+"insert"                                                        return 'pr_insert';
+"into"                                                          return 'pr_into';
+"values"                                                        return 'pr_values';
+"set"                                                           return 'pr_set';
+"where"                                                         return 'pr_where';
+"update"                                                        return 'pr_update';
+"delete"                                                        return 'pr_delete';
+"from"                                                          return 'pr_from';
 
 
 /* EXPRESIONES REGULARES */
@@ -159,7 +172,7 @@ SENTENCIAS: SENTENCIAS SENTENCIA { $$ = $1.concat($2); }
 SENTENCIA : SENTENCIADDL tk_pycoma { $$ = $1; }
 | SENTENCIATCL tk_pycoma { $$ = $1; } //commit y rollback
 | SENTENCIADCL tk_pycoma { $$ = $1; } //usuarios y permisos
-//| SENTENCIADML //base de datos
+| SENTENCIADML tk_pycoma { $$ = $1; } //base de datos
 //| CREAR_FUNCION
 //| CREAR_PROC
 //| CREAR_USERTYPE
@@ -241,6 +254,7 @@ SENTENCIATCL: pr_commit { $$ = new Commit(@1.first_line, @1.first_column); }
 
 
 /***** DCL *****/
+
 SENTENCIADCL: CREAR_USUARIO { $$ = $1; }
 | OTORGAR { $$ = $1; }
 | DENEGAR { $$ = $1; }
@@ -257,6 +271,53 @@ OTORGAR: pr_grant val_variable pr_on val_variable {
 DENEGAR: pr_revoke val_variable pr_on val_variable{
     $$ = new RevocarPermisos($2, $4, @1.first_line, @1.first_column);
 };
+
+/***** DCL *****/
+SENTENCIADML: INSERTAR { $$ = $1; }
+| ACTUALIZAR { $$ = $1; }
+| BORRAR { $$ = $1; }
+//| SELECCIONAR + puntoycoma
+//| BATCH
+;
+
+INSERTAR: pr_insert pr_into val_variable pr_values tk_par1 LISTAEXPRESIONES tk_par2 {
+    $$ = new InsertarRegistros($3, null, $6, @1.first_line, @1.first_column);
+}
+|pr_insert pr_into val_variable tk_par1 LISTANOMBRESPURA tk_par2 pr_values tk_par1 LISTAEXPRESIONES tk_par2 {
+    $$ = new InsertarRegistros($3, $5, $9, @1.first_line, @1.first_column);
+}
+;
+
+LISTAEXPRESIONES : EXPRESION tk_coma LISTAEXPRESIONES { $$ = $3.concat($1); }
+| EXPRESION { $$ = [$1]; };
+
+ACTUALIZAR: pr_update val_variable pr_set LISTA_ASIGNACIONES {
+    $$ = new ActualizarRegistros($2, $4, null, @1.first_line, @1.first_column);
+}
+| pr_update val_variable pr_set LISTA_ASIGNACIONES PROPIEDADDONDE {
+    $$ = new ActualizarRegistros($2, $4, $5, @1.first_line, @1.first_column);
+}
+;
+
+LISTA_ASIGNACIONES: ASIGNACIONAC tk_coma LISTA_ASIGNACIONES { $$ = $3.concat($1); }
+| ASIGNACIONAC { $$ = [$1]; }
+;
+
+ASIGNACIONAC: val_variable + tk_igual + EXPRESION {
+    $$ = new AsignacionActualizar($1, $3, @1.first_line, @1.first_column);
+};
+
+PROPIEDADDONDE: pr_where + CONDICION {
+    $$ = new ClausulaCondicion($2, @1.first_line, @1.first_column);
+};
+
+BORRAR: pr_delete pr_from val_variable {
+    $$ = new EliminarRegistros($3, null, @1.first_line, @1.first_column);
+}
+| pr_delete pr_from val_variable PROPIEDADDONDE {
+        $$ = new EliminarRegistros($3, $4, @1.first_line, @1.first_column);
+}
+;
 
 
 /***** SENTENCIAS FCL ************************************************************************************************/
@@ -360,6 +421,7 @@ VALOR : tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.fi
 | val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)}
 | tk_arr val_variable { $$ = new Variable($2,@1.first_line,@1.first_column)}
 | val_cadena { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.CADENA, $1)}
+| val_variable { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.CAMPO, $1)}
 //| CASTEO
 //| TERNARIO
 ;
