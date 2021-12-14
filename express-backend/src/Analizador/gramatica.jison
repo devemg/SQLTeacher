@@ -125,6 +125,8 @@
 "update"                                                        return 'pr_update';
 "delete"                                                        return 'pr_delete';
 "from"                                                          return 'pr_from';
+"select"                                                        return 'pr_select';
+"where"                                                         return 'pr_where';
 
 
 /* EXPRESIONES REGULARES */
@@ -276,7 +278,7 @@ DENEGAR: pr_revoke val_variable pr_on val_variable{
 SENTENCIADML: INSERTAR { $$ = $1; }
 | ACTUALIZAR { $$ = $1; }
 | BORRAR { $$ = $1; }
-//| SELECCIONAR + puntoycoma
+| SELECCIONAR { $$ = $1; }
 //| BATCH
 ;
 
@@ -307,10 +309,6 @@ ASIGNACIONAC: val_variable + tk_igual + EXPRESION {
     $$ = new AsignacionActualizar($1, $3, @1.first_line, @1.first_column);
 };
 
-PROPIEDADDONDE: pr_where + CONDICION {
-    $$ = new ClausulaCondicion($2, @1.first_line, @1.first_column);
-};
-
 BORRAR: pr_delete pr_from val_variable {
     $$ = new EliminarRegistros($3, null, @1.first_line, @1.first_column);
 }
@@ -319,6 +317,29 @@ BORRAR: pr_delete pr_from val_variable {
 }
 ;
 
+SELECCIONAR: pr_select LISTANOMBRESPURA pr_from  val_variable PROPIEDADSELECCIONAR {
+    $$ = new SeleccionarRegistros($4, $2, $5, @1.first_line, @1.first_column);
+}
+| pr_select tk_por pr_from val_variable PROPIEDADSELECCIONAR {
+    $$ = new SeleccionarRegistros($4, null, $5, @1.first_line, @1.first_column);
+}
+;
+
+PROPIEDADSELECCIONAR: PROPIEDADSELECCIONARLISTA { $$ = $1; }
+| ;
+
+PROPIEDADSELECCIONARLISTA: PROPIEDADSELECCIONARLISTA PROPSELECT { $$ = $1.concat($2); }
+| PROPSELECT { $$ = [$1]; }
+;
+
+PROPSELECT: PROPIEDADDONDE { $$ = $1; }
+//| pr_ordenar + pr_ordPor+PROPIEDADORDENAR
+//| PROPIEDADLIMIT
+;
+
+PROPIEDADDONDE: pr_where + CONDICION {
+    $$ = new ClausulaCondicion($2, @1.first_line, @1.first_column);
+};
 
 /***** SENTENCIAS FCL ************************************************************************************************/
 
@@ -447,8 +468,8 @@ CONDICION : EXPRESION tk_menor EXPRESION
     { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.AND)}
 | EXPRESION tk_or EXPRESION
     { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.OR)}
-//| pr_true
-//| pr_false
+| pr_true
+| pr_false
 //| tk_not CONDICION
 ;
 

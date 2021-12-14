@@ -50,3 +50,6 @@ UPDATE Estudiante
 SET Nombre= "Pao",
  edad=21
 WHERE Nombre == "Paola" && Edad<18;
+
+SELECT alumno FROM Estudiante;
+SELECT alumno FROM Estudiante where true;
