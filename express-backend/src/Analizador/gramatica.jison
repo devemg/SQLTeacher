@@ -31,6 +31,11 @@
     const { Commit } = require('./AST/Database/commit');
     const { Rollback } = require('./AST/Database/rollback');
 
+    const { CrearUsuario } = require('./AST/Database/crear-usuario');
+    const { OtorgarPermisos } = require('./AST/Database/otorgar-permisos');
+    const { RevocarPermisos } = require('./AST/Database/revocar-permisos');
+
+
     const errores = [];
 %}
 
@@ -101,6 +106,13 @@
 "truncate"                                                      return 'pr_truncate';
 "rollback"                                                      return 'pr_rollback';
 "commit"                                                        return 'pr_commit';
+"user"                                                          return 'pr_user';
+"with"                                                          return 'pr_with';
+"password"                                                      return 'pr_password';
+"on"                                                            return 'pr_on';
+"grant"                                                         return 'pr_grant';
+"revoke"                                                        return 'pr_revoke';
+
 
 /* EXPRESIONES REGULARES */
 \"[^\"]*\"				                                        { yytext = yytext.substr(1,yyleng-2); return 'val_cadena'; }
@@ -146,7 +158,7 @@ SENTENCIAS: SENTENCIAS SENTENCIA { $$ = $1.concat($2); }
 
 SENTENCIA : SENTENCIADDL tk_pycoma { $$ = $1; }
 | SENTENCIATCL tk_pycoma { $$ = $1; } //commit y rollback
-//| SENTENCIADCL //usuarios y permisos
+| SENTENCIADCL tk_pycoma { $$ = $1; } //usuarios y permisos
 //| SENTENCIADML //base de datos
 //| CREAR_FUNCION
 //| CREAR_PROC
@@ -163,8 +175,6 @@ SENTENCIADDL: CREAR_DB { $$ = $1; }
 | ELIMINAR_TABLA { $$ = $1; }
 | TRUNCAR_TABLA { $$ = $1; }
 ;
-
-
 
 
 /***** DDL *****/
@@ -230,7 +240,24 @@ SENTENCIATCL: pr_commit { $$ = new Commit(@1.first_line, @1.first_column); }
 ;
 
 
-/***** DDL *****/
+/***** DCL *****/
+SENTENCIADCL: CREAR_USUARIO { $$ = $1; }
+| OTORGAR { $$ = $1; }
+| DENEGAR { $$ = $1; }
+;
+
+CREAR_USUARIO: pr_create pr_user val_variable pr_with pr_password val_cadena {
+    $$ = new CrearUsuario($3, $5, @1.first_line, @1.first_column);
+};
+
+OTORGAR: pr_grant val_variable pr_on val_variable {
+    $$ = new OtorgarPermisos($2, $4, @1.first_line, @1.first_column);
+};
+
+DENEGAR: pr_revoke val_variable pr_on val_variable{
+    $$ = new RevocarPermisos($2, $4, @1.first_line, @1.first_column);
+};
+
 
 /***** SENTENCIAS FCL ************************************************************************************************/
 

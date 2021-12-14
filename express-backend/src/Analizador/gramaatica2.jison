@@ -1,17 +1,5 @@
 
 
-/*
-*/
-
-
-
-
-CREAR_USUARIO = pr_crear pr_usuario val_variable pr_con pr_password val_cadena;
-
-OTORGAR = pr_otorgar val_variable pr_on val_variable;
-
-DENEGAR = pr_denegar val_variable pr_on val_variable;
-
 CREAR_USERTYPE = pr_crear + pr_type + val_variable + tk_par1 + LISTAATRIBUTOS + tk_par2
 | pr_crear pr_type pr_if pr_not pr_exists + val_variable + tk_par1 + LISTAATRIBUTOS + tk_par2
 ;

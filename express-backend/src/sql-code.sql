@@ -1,6 +1,7 @@
 CREATE DATABASE db1;
 CREATE DATABASE if not exists db2;
 CREATE DATABASE if not exists db3;
+CREATE DATABASE if not exists Prueba1;
 
 use db1;
 drop DATABASE db2;
@@ -29,3 +30,7 @@ truncate table usuarios;
 
 commit;
 rollback;
+
+CREATE USER Pedro WITH PASSWORD "1234";
+GRANT Pedro ON Prueba1;
+REVOKE Pedro ON Prueba1;
