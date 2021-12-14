@@ -1,20 +1,10 @@
 
-SENTENCIATCL = BACKUP
-| RESTAURAR;
-
-SENTENCIADCL = CREAR_USUARIO
-| OTORGAR
-| DENEGAR;
-
 
 /*
 */
 
 
 
-BACKUP = pr_backup;
-
-RESTAURAR = pr_restaurar;
 
 CREAR_USUARIO = pr_crear pr_usuario val_variable pr_con pr_password val_cadena;
 

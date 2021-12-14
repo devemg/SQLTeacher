@@ -28,6 +28,9 @@
     const { TruncarTabla } = require('./AST/Database/truncar-tabla');
     const { EliminarTabla } = require('./AST/Database/eliminar-tabla');
 
+    const { Commit } = require('./AST/Database/commit');
+    const { Rollback } = require('./AST/Database/rollback');
+
     const errores = [];
 %}
 
@@ -96,6 +99,8 @@
 "alter"                                                         return 'pr_alter';
 "add"                                                           return 'pr_add';
 "truncate"                                                      return 'pr_truncate';
+"rollback"                                                      return 'pr_rollback';
+"commit"                                                        return 'pr_commit';
 
 /* EXPRESIONES REGULARES */
 \"[^\"]*\"				                                        { yytext = yytext.substr(1,yyleng-2); return 'val_cadena'; }
@@ -140,7 +145,7 @@ SENTENCIAS: SENTENCIAS SENTENCIA { $$ = $1.concat($2); }
 ;
 
 SENTENCIA : SENTENCIADDL tk_pycoma { $$ = $1; }
-//| SENTENCIATCL //commit y rollback
+| SENTENCIATCL tk_pycoma { $$ = $1; } //commit y rollback
 //| SENTENCIADCL //usuarios y permisos
 //| SENTENCIADML //base de datos
 //| CREAR_FUNCION
@@ -159,6 +164,10 @@ SENTENCIADDL: CREAR_DB { $$ = $1; }
 | TRUNCAR_TABLA { $$ = $1; }
 ;
 
+
+
+
+/***** DDL *****/
 CREAR_DB: pr_create pr_database val_variable { $$ = new CrearDB($3, false, @1.first_line, @1.first_column); }
 | pr_create pr_database pr_if pr_not pr_exists val_variable { $$ = new CrearDB($6, true, @1.first_line, @1.first_column); }
 ;
@@ -213,6 +222,15 @@ TRUNCAR_TABLA: pr_truncate pr_table val_variable {
     $$ = new TruncarTabla($3, @1.first_line, @1.first_column);
 }
 ;
+
+/***** TCL *****/
+
+SENTENCIATCL: pr_commit { $$ = new Commit(@1.first_line, @1.first_column); }
+| pr_rollback { $$ = new Rollback(@1.first_line, @1.first_column); }
+;
+
+
+/***** DDL *****/
 
 /***** SENTENCIAS FCL ************************************************************************************************/
 
