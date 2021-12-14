@@ -5,10 +5,14 @@ export class TablaSimbolos {
     private ambito: string;
     private values: Array<Simbolo> = [];
     private padre: TablaSimbolos | undefined;
+    private databases: Array<any>;
+    currentDatabase: any;
 
     constructor(ambito: string, tablaPadre?: TablaSimbolos) {
         this.ambito = ambito;
         this.padre = tablaPadre;
+        this.databases = tablaPadre? tablaPadre.databases : [];
+        this.currentDatabase = tablaPadre?.currentDatabase;
     }
 
     getAmbito(): string {
@@ -21,6 +25,14 @@ export class TablaSimbolos {
             console.log(element);
             console.log('------------------------------------------------------------------------------');
         });
+    }
+
+    mostrarDBEnConsola(): void {
+        this.databases.forEach(element => {
+            console.log('BASES DE DATOS ---------------------------------------------------------------');
+            console.log(element);
+            console.log('------------------------------------------------------------------------------');
+        }); 
     }
 
     /**
@@ -64,6 +76,37 @@ export class TablaSimbolos {
             }
         }
         return this.padre ? this.padre.exists(nombre) : false;
+    }
+
+    crearDB(name: string, linea: number, columna: number): void {
+        const index = this.databases.findIndex((db) => db.name === name);
+        if(index === -1) {
+            this.databases.push({
+                name,
+                tables: [],
+            });
+        } else {
+            throw new ErrorSemantico(`La base de datos '${name}' ya existe`, linea, columna);
+        }
+        
+    }
+
+    eliminarDB(name: string, linea: number, columna: number): void {
+        const index = this.databases.findIndex((db) => db.name === name);
+        if(index > -1) {
+            this.databases.splice(index, 1);
+        } else {
+            throw new ErrorSemantico(`La base de datos '${name}' no existe`, linea, columna);
+        }
+    }
+
+    usarDB(name: string, linea: number, columna: number): void {
+        const db = this.databases.findIndex((db) => db.name === name);
+        if(db) {
+            this.currentDatabase = db;
+        } else {
+            throw new ErrorSemantico(`La base de datos '${name}' no existe`, linea, columna);
+        }
     }
 }
 

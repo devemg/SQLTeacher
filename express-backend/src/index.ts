@@ -1,4 +1,4 @@
-import { Sentencia } from "./Analizador/AST/Sentencias/sentencia.base";
+import { Sentencia } from "./Analizador/AST/base/sentencia.base";
 import { TablaSimbolos } from "./Analizador/AST/TablaSimbolos/tabla-simbolos";
 const express = require('express')
 const app = express()

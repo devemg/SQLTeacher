@@ -1,5 +1,5 @@
 import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
-import { Expresion } from "./expresion";
+import { Expresion } from "../base/expresion.base";
 import { TipoDato } from "./tipos/tipo-dato";
 
 export class Valor extends Expresion {

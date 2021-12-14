@@ -2,7 +2,7 @@ import { LogicaRelacional } from "../Expresiones/logica-relacional";
 import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
 import { Declaracion } from "./declaracion";
 import { Incremento } from "./incremento";
-import { Sentencia } from "./sentencia.base";
+import { Sentencia } from "../base/sentencia.base";
 
 export class For extends Sentencia {
     declaracion: Declaracion;

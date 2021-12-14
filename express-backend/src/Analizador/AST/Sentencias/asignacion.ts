@@ -1,6 +1,6 @@
-import { Expresion } from "../Expresiones/expresion";
+import { Expresion } from "../base/expresion.base";
 import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
-import { Sentencia } from "./sentencia.base";
+import { Sentencia } from "../base/sentencia.base";
 import { ErrorSemantico } from "../Errores/error-semantico";
 import { TipoDato } from "../Expresiones/tipos/tipo-dato";
 

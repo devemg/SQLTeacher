@@ -1,10 +1,10 @@
-import { Sentencia } from "./Analizador/AST/Sentencias/sentencia.base";
+import { Sentencia } from "./Analizador/AST/base/sentencia.base";
 import { TablaSimbolos } from "./Analizador/AST/TablaSimbolos/tabla-simbolos";
 
 const gramatica = require('../dist/Analizador/gramatica');
 var fs = require('fs');
 
-fs.readFile('src/codigo-fuente.txt', (err:any, data:any) => {
+fs.readFile('src/sql-code.sql', (err:any, data:any) => {
     if (err) {
         throw err;
     } 
@@ -16,10 +16,11 @@ fs.readFile('src/codigo-fuente.txt', (err:any, data:any) => {
         if (ast) {
             let output = '';
             const tsGlobal = new TablaSimbolos('global');
-            ast.forEach((sentencia: Sentencia) => {
+            console.log(ast);
+            /*ast.forEach((sentencia: Sentencia) => {
                 const salida = sentencia.Ejecutar(tsGlobal);
                 if (salida) output+=salida;
-            });
+            });*/
             //const astCode = getAST(ast);
             /*console.log({
                 output,

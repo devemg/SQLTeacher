@@ -18,6 +18,9 @@
     const { SDoWhile } = require('./AST/Sentencias/do-while');
     const { Incremento } = require('./AST/Sentencias/incremento');
     const { IfElse } = require('./AST/Sentencias/if-else');
+    const { CrearDB } = require('./AST/Database/crear-db');
+    const { EliminarDB } = require('./AST/Database/eliminar-db');
+    const { UsarDB } = require('./AST/Database/usar-db');
 
     const errores = [];
 %}
@@ -57,6 +60,7 @@
 "||"                                                            return 'tk_or';
 "&&"                                                            return 'tk_and';
 "@"                                                             return 'tk_arr';
+","                                                             return 'pr_coma';
 /* PALABRAS RESERVADAS */
 "null"                                                          return 'pr_null';
 "int"                                                           return 'pr_int';
@@ -64,6 +68,7 @@
 "boolean"                                                       return 'pr_boolean';
 "string"                                                        return 'pr_string';
 "date"                                                          return 'pr_date';
+"counter"                                                       return 'pr_counter';
 "time"                                                          return 'pr_time';
 "function"                                                      return 'pr_function';
 "print"                                                         return 'pr_print';
@@ -71,7 +76,21 @@
 "while"                                                         return 'pr_while';
 "do"                                                            return 'pr_do';
 "if"                                                            return 'pr_if';
-"else"                                                            return 'pr_else';
+"else"                                                          return 'pr_else';
+"true"                                                          return 'pr_true';
+"false"                                                         return 'pr_false';
+"create"                                                        return 'pr_create';
+"use"                                                           return 'pr_use';
+"drop"                                                          return 'pr_drop';
+"not"                                                           return 'pr_not';
+"exists"                                                        return 'pr_exists';
+"database"                                                      return 'pr_database';
+"table"                                                         return 'pr_table';
+"primary"                                                       return 'pr_primary';
+"key"                                                           return 'pr_key';
+"alter"                                                         return 'pr_alter';
+"add"                                                           return 'pr_add';
+"truncate"                                                      return 'pr_truncate';
 
 /* EXPRESIONES REGULARES */
 \"[^\"]*\"				                                        { yytext = yytext.substr(1,yyleng-2); return 'val_cadena'; }
@@ -94,20 +113,87 @@
 %left 'tk_menor_igual' 'tk_mayor_igual' 'tk_menor' 'tk_mayor'
 %left 'tk_suma' 'tk_resta'
 %left 'tk_por' 'tk_div'
-%left UMENOS // precedencia creada para reconocer expresiones con número negativos y no exista conflicto con la resta
+%right UMENOS // precedencia creada para reconocer expresiones con número negativos y no exista conflicto con la resta
 %left 'tk_pot'
 %left 'tk_mod'
-%right 'tk_not'
+//%right UNOT // precedencia creada para reconocer expresiones con número negativos y no exista conflicto con la diferencia
 
 %start INICIO
 
 %% 
 // Producciones
 
-INICIO : INSTRUCCIONES EOF {
+INICIO : SENTENCIAS EOF {
     const ast = $1;
      return { ast, errores}; }
 ;
+
+/***** SENTENCIAS DB ************************************************************************************************/
+
+SENTENCIAS: SENTENCIAS SENTENCIA { $$ = $1.concat($2); } 
+| SENTENCIA {$$ = [$1] }
+;
+
+SENTENCIA : SENTENCIADDL tk_pycoma { $$ = $1; }
+//| SENTENCIATCL //commit y rollback
+//| SENTENCIADCL //usuarios y permisos
+//| SENTENCIADML //base de datos
+//| CREAR_FUNCION
+//| CREAR_PROC
+//| CREAR_USERTYPE
+//| FUNCIONAGREGACION + puntoycoma
+//| SENTENCIAFCL
+;
+
+SENTENCIADDL: CREAR_DB { $$ = $1; }
+| USAR_DB { $$ = $1; }
+| ELIMINAR_DB { $$ = $1; }
+| CREAR_TABLA { $$ = $1; }
+| ALTERAR_TABLA { $$ = $1; }
+| ELIMINAR_TABLA { $$ = $1; }
+| TRUNCAR_TABLA { $$ = $1; }
+;
+
+CREAR_DB: pr_create pr_database val_variable { $$ = new CrearDB($3, false, @1.first_line, @1.first_column); }
+| pr_create pr_database pr_if pr_not pr_exists val_variable { $$ = new CrearDB($6, true, @1.first_line, @1.first_column); }
+;
+
+USAR_DB: pr_use val_variable { $$ = new UsarDB($2, @1.first_line, @1.first_column); }
+;
+
+ELIMINAR_DB: pr_drop pr_database val_variable { $$ = new EliminarDB($3, @1.first_line, @1.first_column); }
+;
+
+CREAR_TABLA: pr_create pr_table val_variable tk_par1 LISTACAMPOSTABLA tk_par2
+| pr_crear pr_tabla pr_if pr_not pr_exists val_variable tk_par1 LISTACAMPOSTABLA tk_par2;
+
+LISTACAMPOSTABLA: CAMPOTABLA pr_coma LISTACAMPOSTABLA
+|CAMPOTABLA;
+
+CAMPOTABLA: val_variable TIPO_DATO_DB pr_primary pr_key
+| val_variable TIPO_DATO_DB
+| pr_primary pr_key tk_par1 LLAVEPRIMARIA tk_par2
+;
+
+TIPO_DATO_DB : TIPO_DATO | pr_counter;
+
+LLAVEPRIMARIA: LLAVEPRIMARIA val_variable
+| val_variable;
+
+
+ALTERAR_TABLA: pr_alter pr_table val_variable pr_add  LISTACAMPOSTABLA
+| pr_alter pr_table val_variable pr_drop LISTANOMBRESPURA; 
+
+LISTANOMBRESPURA: val_variable LISTANOMBRESPURA
+| val_variable
+;
+
+ELIMINAR_TABLA: pr_drop pr_table val_variable 
+| pr_drop pr_table pr_if pr_exists val_variable;
+
+TRUNCAR_TABLA: pr_truncate pr_table val_variable;
+
+/***** SENTENCIAS FCL ************************************************************************************************/
 
 FUNCIONES : FUNCIONES FUNCION { $$ = $1.concat($2); } 
 | FUNCION {$$ = [$1] }
@@ -201,14 +287,22 @@ EXPRESION : EXPRESION tk_suma EXPRESION { $$ = new Aritmetica(@2.first_line,@2.f
 | VALOR {$$ = $1}
 | CONDICION {$$ = $1}
 ;
+
 /* Aplicamos las precedencias creadas con %prec */
 VALOR : tk_resta EXPRESION %prec UMENOS {$$ = new Aritmetica(@2.first_line,@2.first_column,$2,null,TipoAritmetica.RESTA)}
 | val_decimal { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.DECIMAL, $1)}
 | val_entero { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.ENTERO, $1)}
 | tk_arr val_variable { $$ = new Variable($2,@1.first_line,@1.first_column)}
 | val_cadena { $$ = new Valor(@1.first_line,@1.first_column,TipoDato.CADENA, $1)}
+//| CASTEO
+//| TERNARIO
 ;
 
+/*
+CASTEO: tk_par1 TIPO_DATO tk_par2 EXPRESION;
+
+TERNARIO = CONDICION + tk_interrogacion + EXPRESION + tk_dpuntos + EXPRESION;
+*/
 CONDICION : EXPRESION tk_menor EXPRESION 
     { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.MENOR)}
 |  EXPRESION tk_mayor EXPRESION 
@@ -225,8 +319,10 @@ CONDICION : EXPRESION tk_menor EXPRESION
     { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.AND)}
 | EXPRESION tk_or EXPRESION
     { $$ = new LogicaRelacional(@2.first_line,@2.first_column,$1,$3,TipoLogicaRelacional.OR)}
+//| pr_true
+//| pr_false
+//| tk_not CONDICION
 ;
-// pendiente implementar or
 
 /*
 ASIGN_OPERACION = val_variable AOP;

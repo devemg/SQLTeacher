@@ -10,6 +10,15 @@ Desarrollo de ejemplo de lenguaje SQL-Teacher
       - Analizador (AST y analizador)
       - API (Estructura de API)
       - index.js (Archivo de inicio del proyecto)
+
+
+## Pendientes 
+- [ ] Secuencias de escape
+- [ ] Árbol de DB
+- [ ] Rangos de valores
+- [ ] CRUD User types
+- [ ] Casteos
+
 ## Comandos útiles 
 Compila todos los archivos de typescript del proyecto y los genera en la carpeta dist/
 ```

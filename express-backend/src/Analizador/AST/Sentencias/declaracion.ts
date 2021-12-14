@@ -1,8 +1,8 @@
 import { ErrorSemantico } from "../Errores/error-semantico";
-import { Expresion } from "../Expresiones/expresion";
+import { Expresion } from "../base/expresion.base";
 import { TipoDato } from "../Expresiones/tipos/tipo-dato";
 import { Simbolo, TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
-import { Sentencia } from "./sentencia.base";
+import { Sentencia } from "../base/sentencia.base";
 
 export class Declaracion extends Sentencia {
     tipoDato: TipoDato;

@@ -1,6 +1,6 @@
 import { ExpIncremento } from "../Expresiones/incremento";
 import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
-import { Sentencia } from "./sentencia.base";
+import { Sentencia } from "../base/sentencia.base";
 
 export class Incremento extends Sentencia {
     incremento: ExpIncremento;

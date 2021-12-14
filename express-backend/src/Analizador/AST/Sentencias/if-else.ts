@@ -1,6 +1,6 @@
 import { LogicaRelacional } from "../Expresiones/logica-relacional";
 import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
-import { Sentencia } from "./sentencia.base";
+import { Sentencia } from "../base/sentencia.base";
 
 export class IfElse extends Sentencia {
     condicion: LogicaRelacional;
