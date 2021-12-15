@@ -1,6 +1,6 @@
-import { Clausula } from "../base/clausula.base";
-import { LogicaRelacional } from "../Expresiones/logica-relacional";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Clausula } from "../../base/clausula.base";
+import { LogicaRelacional } from "../../Expresiones/logica-relacional";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
 export class ClausulaCondicion extends Clausula {
     condicion: LogicaRelacional;

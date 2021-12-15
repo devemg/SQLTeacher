@@ -1,5 +1,5 @@
-import { Sentencia } from "../base/sentencia.base";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Sentencia } from "../../base/sentencia.base";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
 export class Rollback extends Sentencia {
 

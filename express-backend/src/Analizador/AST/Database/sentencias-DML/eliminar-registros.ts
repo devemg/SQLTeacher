@@ -1,6 +1,6 @@
-import { Sentencia } from "../base/sentencia.base";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
-import { ClausulaCondicion } from "./clausula-condicion";
+import { Sentencia } from "../../base/sentencia.base";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
+import { ClausulaCondicion } from "../clausulas/clausula-condicion";
 
 export class EliminarRegistros extends Sentencia {
     nombreTabla: string; 

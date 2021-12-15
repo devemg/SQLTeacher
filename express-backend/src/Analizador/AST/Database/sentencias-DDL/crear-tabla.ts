@@ -1,6 +1,6 @@
-import { Sentencia } from "../base/sentencia.base";
-import { TipoDato } from "../Expresiones/tipos/tipo-dato";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Sentencia } from "../../base/sentencia.base";
+import { TipoDato } from "../../Expresiones/tipos/tipo-dato";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
 export class CrearTabla extends Sentencia {
 

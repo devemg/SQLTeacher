@@ -2,7 +2,7 @@ CREATE DATABASE db1;
 CREATE DATABASE if not exists db2;
 CREATE DATABASE if not exists db3;
 CREATE DATABASE if not exists Prueba1;
-
+/*
 use db1;
 drop DATABASE db2;
 
@@ -53,3 +53,4 @@ WHERE Nombre == "Paola" && Edad<18;
 
 SELECT alumno FROM Estudiante;
 SELECT alumno FROM Estudiante where true;
+*/

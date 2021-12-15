@@ -1,7 +1,7 @@
-import { Sentencia } from "../base/sentencia.base";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Sentencia } from "../../base/sentencia.base";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
-export class OtorgarPermisos extends Sentencia {
+export class RevocarPermisos extends Sentencia {
 
     usuario: string;
     baseDatos: string;

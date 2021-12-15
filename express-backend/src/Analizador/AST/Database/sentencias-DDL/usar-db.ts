@@ -1,7 +1,7 @@
-import { Sentencia } from "../base/sentencia.base";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Sentencia } from "../../base/sentencia.base";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
-export class EliminarDB extends Sentencia {
+export class UsarDB extends Sentencia {
 
     name: string;
 
@@ -11,8 +11,8 @@ export class EliminarDB extends Sentencia {
     }
 
     Ejecutar(tablaSimbolos: TablaSimbolos): void {
-        tablaSimbolos.eliminarDB(this.name, this.linea, this.columna);
-        console.log(tablaSimbolos.mostrarDBEnConsola());
+        tablaSimbolos.usarDB(this.name, this.linea, this.columna);
+        console.log(tablaSimbolos.currentDatabase);
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

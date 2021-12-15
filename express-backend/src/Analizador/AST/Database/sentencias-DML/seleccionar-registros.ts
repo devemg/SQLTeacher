@@ -1,6 +1,6 @@
-import { Clausula } from "../base/clausula.base";
-import { Sentencia } from "../base/sentencia.base";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Clausula } from "../../base/clausula.base";
+import { Sentencia } from "../../base/sentencia.base";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
 export class SeleccionarRegistros extends Sentencia {
     columnas: Array<string>; 

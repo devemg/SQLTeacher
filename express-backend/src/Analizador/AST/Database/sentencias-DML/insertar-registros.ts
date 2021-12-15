@@ -1,6 +1,6 @@
-import { Expresion } from "../base/expresion.base";
-import { Sentencia } from "../base/sentencia.base";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Expresion } from "../../base/expresion.base";
+import { Sentencia } from "../../base/sentencia.base";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
 export class InsertarRegistros extends Sentencia {
 

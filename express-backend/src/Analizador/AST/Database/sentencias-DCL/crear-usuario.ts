@@ -1,14 +1,14 @@
-import { Sentencia } from "../base/sentencia.base";
-import { TablaSimbolos } from "../TablaSimbolos/tabla-simbolos";
+import { Sentencia } from "../../base/sentencia.base";
+import { TablaSimbolos } from "../../TablaSimbolos/tabla-simbolos";
 
-export class RevocarPermisos extends Sentencia {
+export class CrearUsuario extends Sentencia {
 
     usuario: string;
-    baseDatos: string;
-    constructor( usuario: string, baseDatos: string, linea: number, columna: number) {
+    password: string;
+    constructor( usuario: string, password: string, linea: number, columna: number) {
         super(linea, columna);
         this.usuario = usuario;
-        this.baseDatos = baseDatos;
+        this.password = password;
     }
     Ejecutar(tsActual: TablaSimbolos, isBreak?: boolean, isContinue?: boolean): string | void | undefined {
         throw new Error("Method not implemented.");
