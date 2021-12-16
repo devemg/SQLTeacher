@@ -1,10 +1,7 @@
 CREATE DATABASE db1;
-CREATE DATABASE if not exists db2;
-CREATE DATABASE if not exists db3;
-CREATE DATABASE if not exists Prueba1;
-/*
-use db1;
+CREATE DATABASE db2;
 drop DATABASE db2;
+use db1;
 
 CREATE TABLE EspeciesDeMono (
 especie string PRIMARY KEY,
@@ -13,14 +10,6 @@ poblacion int,
 tamanio_promedio int
 );
 
-//Tabla con llave compuesta
-
-CREATE TABLE Estudiante (
-    id int PRIMARY KEY,
-    nombre string,
-    pais string,
-    edad int
-);
 
 CREATE TABLE Muro (
 usuario_id int,
@@ -30,6 +19,13 @@ contenido string,
 publicado_por string,
 PRIMARY KEY (usuario_id, mes_publicado, hora_publicado)
 );
+
+/*
+
+
+//Tabla con llave compuesta
+
+
 
 DROP TABLE IF EXISTS usuarios;
 

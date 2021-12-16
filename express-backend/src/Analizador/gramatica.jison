@@ -19,27 +19,27 @@
     const { Incremento } = require('./AST/Sentencias/incremento');
     const { IfElse } = require('./AST/Sentencias/if-else');
     
-    const { CrearDB } = require('./AST/Database/crear-db');
-    const { EliminarDB } = require('./AST/Database/eliminar-db');
-    const { UsarDB } = require('./AST/Database/usar-db');
+    const { CrearDB } = require('./AST/Database/sentencias-DDL/crear-db');
+    const { EliminarDB } = require('./AST/Database/sentencias-DDL/eliminar-db');
+    const { UsarDB } = require('./AST/Database/sentencias-DDL/usar-db');
     
-    const { CrearTabla, ColumnaCrearTabla } = require('./AST/Database/crear-tabla');
-    const { ModificarTabla } = require('./AST/Database/modificar-tabla');
-    const { TruncarTabla } = require('./AST/Database/truncar-tabla');
-    const { EliminarTabla } = require('./AST/Database/eliminar-tabla');
+    const { CrearTabla, ColumnaCrearTabla } = require('./AST/Database/sentencias-DDL/crear-tabla');
+    const { ModificarTabla } = require('./AST/Database/sentencias-DDL/modificar-tabla');
+    const { TruncarTabla } = require('./AST/Database/sentencias-DDL/truncar-tabla');
+    const { EliminarTabla } = require('./AST/Database/sentencias-DDL/eliminar-tabla');
 
-    const { Commit } = require('./AST/Database/commit');
-    const { Rollback } = require('./AST/Database/rollback');
+    const { Commit } = require('./AST/Database/sentencias-TCL/commit');
+    const { Rollback } = require('./AST/Database/sentencias-TCL/rollback');
 
-    const { CrearUsuario } = require('./AST/Database/crear-usuario');
-    const { OtorgarPermisos } = require('./AST/Database/otorgar-permisos');
-    const { RevocarPermisos } = require('./AST/Database/revocar-permisos');
+    const { CrearUsuario } = require('./AST/Database/sentencias-DCL/crear-usuario');
+    const { OtorgarPermisos } = require('./AST/Database/sentencias-DCL/otorgar-permisos');
+    const { RevocarPermisos } = require('./AST/Database/sentencias-DCL/revocar-permisos');
 
-    const { InsertarRegistros } = require('./AST/Database/insertar-registros');
-    const { ActualizarRegistros, AsignacionActualizar } = require('./AST/Database/actualizar-registros');
-    const { ClausulaCondicion } = require('./AST/Database/clausula-condicion');
-    const { EliminarRegistros } = require('./AST/Database/eliminar-registros');
-    const { SeleccionarRegistros } = require('./AST/Database/seleccionar-registros');
+    const { InsertarRegistros } = require('./AST/Database/sentencias-DML/insertar-registros');
+    const { ActualizarRegistros, AsignacionActualizar } = require('./AST/Database/sentencias-DML/actualizar-registros');
+    const { ClausulaCondicion } = require('./AST/Database/clausulas/clausula-condicion');
+    const { EliminarRegistros } = require('./AST/Database/sentencias-DML/eliminar-registros');
+    const { SeleccionarRegistros } = require('./AST/Database/sentencias-DML/seleccionar-registros');
 
     const errores = [];
 %}

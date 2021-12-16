@@ -8,12 +8,14 @@ export class TablaSimbolos {
     private padre: TablaSimbolos | undefined;
     private databases: Array<BaseDeDatos>;
     currentDatabase: BaseDeDatos | undefined;
+    errores: Error[] = [];
 
     constructor(ambito: string, tablaPadre?: TablaSimbolos) {
         this.ambito = ambito;
         this.padre = tablaPadre;
         this.databases = tablaPadre? tablaPadre.databases : [];
         this.currentDatabase = tablaPadre?.currentDatabase;
+        this.errores = tablaPadre ? tablaPadre.errores : [];
     }
 
     getAmbito(): string {
@@ -29,11 +31,11 @@ export class TablaSimbolos {
     }
 
     mostrarDBEnConsola(): void {
+        console.log('BASES DE DATOS ---------------------------------------------------------------');
         this.databases.forEach(element => {
-            console.log('BASES DE DATOS ---------------------------------------------------------------');
             console.log(element);
-            console.log('------------------------------------------------------------------------------');
         }); 
+        console.log('------------------------------------------------------------------------------');
     }
 
     /**
@@ -84,9 +86,8 @@ export class TablaSimbolos {
         if(index === -1) {
             this.databases.push(new BaseDeDatos(nombre));
         } else {
-            throw new ErrorSemantico(`La base de datos '${name}' ya existe`, linea, columna);
+            throw new ErrorSemantico(`La base de datos '${nombre}' ya existe`, linea, columna);
         }
-        
     }
 
     eliminarDB(name: string, linea: number, columna: number): void {
@@ -105,6 +106,10 @@ export class TablaSimbolos {
         } else {
             throw new ErrorSemantico(`La base de datos '${name}' no existe`, linea, columna);
         }
+    }
+
+    addError(error: any): void {
+        this.errores.push(error);
     }
 }
 

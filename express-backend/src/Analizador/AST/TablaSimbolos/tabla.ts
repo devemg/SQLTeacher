@@ -1,21 +1,41 @@
 import { TipoDato } from "../Expresiones/tipos/tipo-dato";
 
-export interface TablaDB {
+export class TablaDB {
     columnas: Array<ColumnaDB>;
     filas: Array<FilaDB>;
+    nombre: string;
+    composePrimaryKey: boolean;
+
+    constructor(nombre: string, columnas: Array<ColumnaDB>) {
+        this.columnas = columnas;
+        this.filas = [];
+        this.nombre = nombre;
+        this.composePrimaryKey = true;
+    }
 }
 
-export interface ColumnaDB {
+export class ColumnaDB {
     nombre: string;
     tipo: TipoDato;
-    isCounter: boolean;
+    isPrimaryKey: boolean;
+
+    constructor(nombre: string, tipo: TipoDato, isPrimary: boolean) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.isPrimaryKey = isPrimary;
+    }
 }
 
-export interface FilaDB {
-    values: Array<CampoDB>;
+export class FilaDB {
+    values: Array<CampoDB> = [];
 }
 
-export interface CampoDB {
+export class CampoDB {
     key: string;
     name: any;
+
+    constructor(key: string, name: any) {
+        this.key = key;
+        this.name = name;
+    }
 }

@@ -9,39 +9,27 @@ fs.readFile('src/sql-code.sql', (err:any, data:any) => {
         throw err;
     } 
     const text = data.toString();
-    console.log("-----------------------------");
     const response = gramatica.parse(text);
     const ast = response.ast;
     try {
         if (ast) {
-            let output = '';
+            const consola = {
+                log: (element: any)=> console.log(element)
+            }
             const tsGlobal = new TablaSimbolos('global');
-            console.log(ast);
-            /*ast.forEach((sentencia: Sentencia) => {
-                const salida = sentencia.Ejecutar(tsGlobal);
-                if (salida) output+=salida;
-            });*/
-            //const astCode = getAST(ast);
-            /*console.log({
-                output,
-                astCode: "",
-                errores: response.errores
-            });*/
-            /*console.log({
-                output,
-                astCode: "",
-                errores: response.errores
-            });*/
+            ast.forEach((sentencia: Sentencia) => {
+                sentencia.Ejecutar(tsGlobal, consola);
+            });
+            tsGlobal.mostrarDBEnConsola();
+            tsGlobal.errores.forEach(e => {
+                console.log('----> ', e.message);
+            });
         } else {
-            console.log({errores: response.errores});
-            /*response.errores.forEach((element: any) => {
-                console.log(element);
-            });*/
+            console.log('errores en tiempo de compilación');
         }
      } catch (e) {
-         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-         //console.log(e);
-         console.error(e);
+        console.log('error en tiempo de ejecución');
+        //console.log(e.getMessage());
      }
 });
 

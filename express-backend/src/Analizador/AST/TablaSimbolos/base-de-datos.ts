@@ -1,3 +1,4 @@
+import { ErrorSemantico } from "../Errores/error-semantico";
 import { TablaDB } from "./tabla";
 
 export class BaseDeDatos {
@@ -9,7 +10,7 @@ export class BaseDeDatos {
         this.tablas = [];
     }
 
-    addTabla(nombre: string): void {
-        
+    addTabla(tabla: TablaDB): void {
+        this.tablas.push(tabla);
     }
 }

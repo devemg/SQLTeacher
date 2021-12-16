@@ -11,8 +11,11 @@ export class EliminarDB extends Sentencia {
     }
 
     Ejecutar(tablaSimbolos: TablaSimbolos): void {
-        tablaSimbolos.eliminarDB(this.name, this.linea, this.columna);
-        console.log(tablaSimbolos.mostrarDBEnConsola());
+        try {
+            tablaSimbolos.eliminarDB(this.name, this.linea, this.columna);
+        } catch(e) {
+            tablaSimbolos.addError(e);
+        }
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

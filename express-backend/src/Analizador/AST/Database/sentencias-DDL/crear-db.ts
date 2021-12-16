@@ -15,10 +15,9 @@ export class CrearDB extends Sentencia {
     Ejecutar(tablaSimbolos: TablaSimbolos): void {
         try {
             tablaSimbolos.crearDB(this.name, this.linea, this.columna);
-            console.log(tablaSimbolos.mostrarDBEnConsola());
-        } catch(e) {
+        } catch(e: any) {
             if (!this.ifExists) {
-                throw e;
+                tablaSimbolos.addError(e);
             }
         } 
     }

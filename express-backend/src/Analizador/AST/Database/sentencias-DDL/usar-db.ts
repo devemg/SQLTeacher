@@ -11,8 +11,11 @@ export class UsarDB extends Sentencia {
     }
 
     Ejecutar(tablaSimbolos: TablaSimbolos): void {
-        tablaSimbolos.usarDB(this.name, this.linea, this.columna);
-        console.log(tablaSimbolos.currentDatabase);
+        try {
+            tablaSimbolos.usarDB(this.name, this.linea, this.columna);
+        } catch(e) {
+            tablaSimbolos.addError(e);
+        }
     }
 
     getCodigoAST(): { codigo: string, nombreNodo: string } {

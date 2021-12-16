@@ -2,12 +2,8 @@ export class ErrorLexico extends Error {
     linea: number;
     columna: number;
     constructor(mensaje: string, linea: number, columna: number) {
-        super(mensaje);
+        super(`Error Léxico: ${mensaje} en línea ${linea} y columna ${columna}`);
         this.linea = linea;
         this.columna = columna;
-    }
-
-    getMessage(): string {
-        return `Error Léxico: Caracter '${this.message}' no reconocido en línea ${this.linea} y columna ${this.columna}`;
     }
 }
