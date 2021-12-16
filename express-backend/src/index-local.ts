@@ -20,7 +20,7 @@ fs.readFile('src/sql-code.sql', (err:any, data:any) => {
             ast.forEach((sentencia: Sentencia) => {
                 sentencia.Ejecutar(tsGlobal, consola);
             });
-            tsGlobal.mostrarDBEnConsola();
+            console.log('...........................................');
             tsGlobal.errores.forEach(e => {
                 console.log('----> ', e.message);
             });

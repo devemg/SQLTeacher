@@ -19,7 +19,7 @@ export class CrearTabla extends Sentencia {
 
     Ejecutar(tablaSimbolos: TablaSimbolos): void {
         if (tablaSimbolos.currentDatabase) {
-            if (tablaSimbolos.currentDatabase.tablas.findIndex(tabla => tabla.nombre === tabla.nombre) > -1) {
+            if (tablaSimbolos.currentDatabase.tablas.findIndex(t => t.nombre === this.name) > -1) {
                 tablaSimbolos.addError(new ErrorSemantico(`La tabla '${this.name}' ya existe`, this.linea, this.columna));
                 return;
             }    
@@ -44,21 +44,21 @@ export class CrearTabla extends Sentencia {
                 if (columna.tipo === TipoDato.COUNTER) {
                     if (!columna.isPrimaryKey) {
                         isValid = false;
-                        tablaSimbolos.addError(new ErrorSemantico('Las columnas de tipo counter deben ser llaves primarias', this.linea, this.columna));
+                        tablaSimbolos.addError(new ErrorSemantico('Las columnas de tipo counter deben ser llaves primarias', col.linea, col.columna));
                     }
                 }
                 if (col.isPrimaryKey) {
                     if (col.primaryNames !== null || !havePrimaryKey) {
                         havePrimaryKey = true;
                     } else {
-                        tablaSimbolos.addError(new ErrorSemantico('No pueden ser declaradas dos llaves primarias', this.linea, this.columna));
+                        tablaSimbolos.addError(new ErrorSemantico('No pueden ser declaradas dos llaves primarias', col.linea, col.columna));
                         isValid = false;
                     }
                 }
 
                 if (isValid) {
                     if (columnas.findIndex(cl => cl.nombre === columna.nombre) > -1) {
-                        tablaSimbolos.addError(new ErrorSemantico(`La columna '${columna.nombre}' no se puede repetir`, this.linea, this.columna));
+                        tablaSimbolos.addError(new ErrorSemantico(`La columna '${columna.nombre}' no se puede repetir`, col.linea, col.columna));
                     } else {
                         if (!(col.isPrimaryKey && col.primaryNames !== null)) {
                             columnas.push(columna);
@@ -86,7 +86,7 @@ export class CrearTabla extends Sentencia {
                         }
                     });
                 }
-                //tablaSimbolos.currentDatabase.addTabla(tabla);
+                tablaSimbolos.currentDatabase.addTabla(tabla);
             }
         } else {
             tablaSimbolos.addError(new ErrorSemantico('No hay una base de datos seleccionada',this.linea, this.columna));

@@ -1,0 +1,66 @@
+[
+  {
+    "nombre": "db1",
+    "tablas": [
+      {
+        "columnas": [
+          {
+            "nombre": "tamanio_promedio",
+            "tipo": 0,
+            "isPrimaryKey": false
+          },
+          {
+            "nombre": "poblacion",
+            "tipo": 0,
+            "isPrimaryKey": false
+          },
+          {
+            "nombre": "nombre_comun",
+            "tipo": 2,
+            "isPrimaryKey": false
+          },
+          {
+            "nombre": "especie",
+            "tipo": 2,
+            "isPrimaryKey": true
+          }
+        ],
+        "filas": [],
+        "nombre": "EspeciesDeMono",
+        "composePrimaryKey": true
+      },
+      {
+        "columnas": [
+          {
+            "nombre": "publicado_por",
+            "tipo": 2,
+            "isPrimaryKey": false
+          },
+          {
+            "nombre": "contenido",
+            "tipo": 2,
+            "isPrimaryKey": false
+          },
+          {
+            "nombre": "hora_publicado",
+            "tipo": 1,
+            "isPrimaryKey": true
+          },
+          {
+            "nombre": "mes_publicado",
+            "tipo": 0,
+            "isPrimaryKey": true
+          },
+          {
+            "nombre": "usuario_id",
+            "tipo": 0,
+            "isPrimaryKey": true
+          }
+        ],
+        "filas": [],
+        "nombre": "Muro",
+        "composePrimaryKey": true
+      }
+    ]
+  }
+]

@@ -6,7 +6,7 @@ export class TablaSimbolos {
     private ambito: string;
     private values: Array<Simbolo> = [];
     private padre: TablaSimbolos | undefined;
-    private databases: Array<BaseDeDatos>;
+    databases: Array<BaseDeDatos>;
     currentDatabase: BaseDeDatos | undefined;
     errores: Error[] = [];
 

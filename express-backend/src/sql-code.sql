@@ -20,6 +20,16 @@ publicado_por string,
 PRIMARY KEY (usuario_id, mes_publicado, hora_publicado)
 );
 
+CREATE TABLE Muro (
+usuario_id int,
+mes_publicado int,
+hora_publicado double,
+contenido string,
+publicado_por string,
+PRIMARY KEY (usuario_id, mes_publicado, hora_publicado)
+);
+
+commit;
 /*
 
 
